@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../../img/favicon.ico" />
+    <title>Nebn - dwarf-ice3-gt4py</title>
+    <link rel="stylesheet" href="../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../../assets/_mkdocstrings.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Nebn";
+        var mkdocs_page_input_path = "ice3_gt4py/phyex_common/nebn.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../.." class="icon icon-home"> dwarf-ice3-gt4py
+        </a>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../translation_options/">Translation Notes</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../microphysique/">Scientific Notes</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">ice3_gt4py</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="#">stencils</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../stencils/aro_filter/">aro_filter</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../stencils/ice_adjust/">ice_adjust</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">components</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../components/aro_adjust/">aro_adjust</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../components/ice_adjust/">ice_adjust</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">functions</a>
+    <ul>
+                <li class="toctree-l2"><a class="" href="../../functions/backup">backup</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../functions/compute_ice_frac">compute_ice_frac</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../functions/condensation_src_1d">condensation_src_1d</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../functions/erf">erf</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../functions/gamma">gamma</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../functions/ice_adjust">ice_adjust</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../functions/ice4_sedimentation_stat">ice4_sedimentation_stat</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../functions/icecloud">icecloud</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../functions/sign">sign</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../functions/src_1d">src_1d</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../functions/subgrid_mf">subgrid_mf</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../functions/temperature">temperature</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../functions/tiwmx">tiwmx</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">phyex_common</a>
+    <ul>
+                <li class="toctree-l2"><a class="" href="../budget">budget</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../constants">constants</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../dimphyex">dimphyex</a>
+                </li>
+                <li class="toctree-l2"><a class="" href=".">nebn</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../param_ice">param_ice</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../phyex">phyex</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../rain_ice_descr">rain_ice_descr</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../rain_ice_param">rain_ice_param</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">initialisation</a>
+    <ul>
+                <li class="toctree-l2"><a class="" href="../../initialisation/utils">utils</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../initialisation/reference">reference</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../initialisation/state">state</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">drivers</a>
+    <ul>
+                <li class="toctree-l2"><a class="" href="../../drivers/config">config</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../..">dwarf-ice3-gt4py</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../.." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Nebn</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <div class="doc doc-object doc-module">
+
+
+
+<a id="ice3_gt4py.phyex_common.nebn"></a>
+  <div class="doc doc-contents first">
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="ice3_gt4py.phyex_common.nebn.FracIceAdjust" class="doc doc-heading">
+          <code>FracIceAdjust</code>
+
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+          <p class="doc doc-class-bases">
+            Bases: <code><span title="enum.Enum">Enum</span></code></p>
+
+  
+      <p>Enumeration for ice fraction adjustments modes</p>
+<p>T in case of AROME</p>
+
+            <details class="quote">
+              <summary>Source code in <code>src/ice3_gt4py/phyex_common/nebn.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">FracIceAdjust</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Enumeration for ice fraction adjustments modes</span>
+
+<span class="sd">    T in case of AROME</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">T</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">O</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">S</span> <span class="o">=</span> <span class="mi">3</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+  </div>
+
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="ice3_gt4py.phyex_common.nebn.FracIceShallow" class="doc doc-heading">
+          <code>FracIceShallow</code>
+
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+          <p class="doc doc-class-bases">
+            Bases: <code><span title="enum.Enum">Enum</span></code></p>
+
+  
+      <p>Enumeration of ice fraction for shallow mass fluxes</p>
+<p>T in case of AROME</p>
+
+            <details class="quote">
+              <summary>Source code in <code>src/ice3_gt4py/phyex_common/nebn.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">FracIceShallow</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Enumeration of ice fraction for shallow mass fluxes</span>
+
+<span class="sd">    T in case of AROME</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">T</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">S</span> <span class="o">=</span> <span class="mi">1</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+  </div>
+
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="ice3_gt4py.phyex_common.nebn.Neb" class="doc doc-heading">
+          <code>Neb</code>
+
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
+  </span>
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+
+  
+      <p>Declaration of</p>
+
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>tminmix</code></b>
+                  (<code>float</code>, default:
+                      <code>273.16</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>minimum temperature for mixed phase</p>
+              </div>
+            </li>
+            <li>
+              <b><code>tmaxmix</code></b>
+                  (<code>float</code>, default:
+                      <code>253.16</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>maximum temperature for mixed phase</p>
+              </div>
+            </li>
+            <li>
+              <b><code>hgt_qs</code></b>
+                  (<code>float</code>, default:
+                      <code>False</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>switch for height dependant VQSIGSAT</p>
+              </div>
+            </li>
+            <li>
+              <b><code>frac_ice_adjust</code></b>
+                  (<code>str</code>, default:
+                      <code>&#39;S&#39;</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>ice fraction for adjustments</p>
+              </div>
+            </li>
+            <li>
+              <b><code>frac_ice_shallow</code></b>
+                  (<code>str</code>, default:
+                      <code>&#39;S&#39;</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>ice fraction for shallow_mf</p>
+              </div>
+            </li>
+            <li>
+              <b><code>vsigqsat</code></b>
+                  (<code>float</code>, default:
+                      <code>0.02</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>coeff applied to qsat variance contribution</p>
+              </div>
+            </li>
+            <li>
+              <b><code>condens</code></b>
+                  (<code>str</code>, default:
+                      <code>&#39;CB02&#39;</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>subgrid condensation PDF</p>
+              </div>
+            </li>
+            <li>
+              <b><code>lambda3</code></b>
+                  (<code>str</code>, default:
+                      <code>&#39;CB&#39;</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>lambda3 choice for subgrid cloud scheme</p>
+              </div>
+            </li>
+            <li>
+              <b><code>statnw</code></b>
+                  (<code>bool</code>, default:
+                      <code>False</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>updated full statistical cloud scheme</p>
+              </div>
+            </li>
+            <li>
+              <b><code>sigmas</code></b>
+                  (<code>bool</code>, default:
+                      <code>True</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>switch for using sigma_s from turbulence scheme</p>
+              </div>
+            </li>
+            <li>
+              <b><code>subg_cond</code></b>
+                  (<code>bool</code>, default:
+                      <code>False</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>switch for subgrid condensation</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+            <details class="quote">
+              <summary>Source code in <code>src/ice3_gt4py/phyex_common/nebn.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@ported_class</span><span class="p">(</span><span class="n">from_file</span><span class="o">=</span><span class="s2">&quot;PHYEX/src/common/aux/modd_nebn.F90&quot;</span><span class="p">)</span>
+<span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">Neb</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Declaration of</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        tminmix (float): minimum temperature for mixed phase</span>
+<span class="sd">        tmaxmix (float): maximum temperature for mixed phase</span>
+<span class="sd">        hgt_qs (float): switch for height dependant VQSIGSAT</span>
+<span class="sd">        frac_ice_adjust (str): ice fraction for adjustments</span>
+<span class="sd">        frac_ice_shallow (str): ice fraction for shallow_mf</span>
+<span class="sd">        vsigqsat (float): coeff applied to qsat variance contribution</span>
+<span class="sd">        condens (str): subgrid condensation PDF</span>
+<span class="sd">        lambda3 (str): lambda3 choice for subgrid cloud scheme</span>
+<span class="sd">        statnw (bool): updated full statistical cloud scheme</span>
+<span class="sd">        sigmas (bool): switch for using sigma_s from turbulence scheme</span>
+<span class="sd">        subg_cond (bool): switch for subgrid condensation</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">hprogram</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;AROME&quot;</span><span class="p">,</span> <span class="s2">&quot;MESO-NH&quot;</span><span class="p">,</span> <span class="s2">&quot;LMDZ&quot;</span><span class="p">]</span>
+
+    <span class="n">tminmix</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mf">273.16</span><span class="p">)</span>
+    <span class="n">tmaxmix</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mf">253.16</span><span class="p">)</span>
+    <span class="n">hgt_qs</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">frac_ice_adjust</span><span class="p">:</span> <span class="n">FracIceAdjust</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">&quot;S&quot;</span><span class="p">)</span>
+    <span class="n">frac_ice_shallow</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">&quot;S&quot;</span><span class="p">)</span>
+    <span class="n">vsigqsat</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mf">0.02</span><span class="p">)</span>
+    <span class="n">condens</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">&quot;CB02&quot;</span><span class="p">)</span>
+    <span class="n">lambda3</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">&quot;CB&quot;</span><span class="p">)</span>
+    <span class="n">statnw</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">sigmas</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">subg_cond</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">hprogram</span> <span class="o">==</span> <span class="s2">&quot;AROME&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">frac_ice_adjust</span> <span class="o">=</span> <span class="n">FracIceAdjust</span><span class="o">.</span><span class="n">S</span><span class="o">.</span><span class="n">value</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">frac_ice_shallow</span> <span class="o">=</span> <span class="n">FracIceShallow</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">value</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">vsigqsat</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sigmas</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">hprogram</span> <span class="o">==</span> <span class="s2">&quot;LMDZ&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">subg_cond</span> <span class="o">=</span> <span class="kc">True</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+  </div>
+
+
+</div>
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+  </span>
+</div>
+    <script src="../../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../../..";</script>
+    <script src="../../../js/theme_extra.js"></script>
+    <script src="../../../js/theme.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../../img/favicon.ico" />
+    <title>Phyex - dwarf-ice3-gt4py</title>
+    <link rel="stylesheet" href="../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../../assets/_mkdocstrings.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Phyex";
+        var mkdocs_page_input_path = "ice3_gt4py/phyex_common/phyex.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../.." class="icon icon-home"> dwarf-ice3-gt4py
+        </a>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../translation_options/">Translation Notes</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../microphysique/">Scientific Notes</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">ice3_gt4py</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="#">stencils</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../stencils/aro_filter/">aro_filter</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../stencils/ice_adjust/">ice_adjust</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">components</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../components/aro_adjust/">aro_adjust</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../components/ice_adjust/">ice_adjust</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">functions</a>
+    <ul>
+                <li class="toctree-l2"><a class="" href="../../functions/backup">backup</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../functions/compute_ice_frac">compute_ice_frac</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../functions/condensation_src_1d">condensation_src_1d</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../functions/erf">erf</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../functions/gamma">gamma</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../functions/ice_adjust">ice_adjust</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../functions/ice4_sedimentation_stat">ice4_sedimentation_stat</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../functions/icecloud">icecloud</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../functions/sign">sign</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../functions/src_1d">src_1d</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../functions/subgrid_mf">subgrid_mf</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../functions/temperature">temperature</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../functions/tiwmx">tiwmx</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">phyex_common</a>
+    <ul>
+                <li class="toctree-l2"><a class="" href="../budget">budget</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../constants">constants</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../dimphyex">dimphyex</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../nebn">nebn</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../param_ice">param_ice</a>
+                </li>
+                <li class="toctree-l2"><a class="" href=".">phyex</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../rain_ice_descr">rain_ice_descr</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../rain_ice_param">rain_ice_param</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">initialisation</a>
+    <ul>
+                <li class="toctree-l2"><a class="" href="../../initialisation/utils">utils</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../initialisation/reference">reference</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../initialisation/state">state</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">drivers</a>
+    <ul>
+                <li class="toctree-l2"><a class="" href="../../drivers/config">config</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../..">dwarf-ice3-gt4py</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../.." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Phyex</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <div class="doc doc-object doc-module">
+
+
+
+<a id="ice3_gt4py.phyex_common.phyex"></a>
+  <div class="doc doc-contents first">
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="ice3_gt4py.phyex_common.phyex.Phyex" class="doc doc-heading">
+          <code>Phyex</code>
+
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
+  </span>
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+
+  
+      <p>Data class for physics parametrizations</p>
+
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>program</code></b>
+                  (<code><span title="typing.Literal">Literal</span></code>, default:
+                      <code>&#39;AROME&#39;</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Switch between Meso-NH and AROME</p>
+              </div>
+            </li>
+            <li>
+              <b><code>timestep</code></b>
+                  (<code>float</code>, default:
+                      <code>1</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>timestep for physical parametrizations</p>
+              </div>
+            </li>
+            <li>
+              <b><code>cst</code></b>
+                  (<code><a class="autorefs autorefs-internal" title="ice3_gt4py.phyex_common.constants.Constants" href="../constants/#ice3_gt4py.phyex_common.constants.Constants">Constants</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>Physical constants description</p>
+              </div>
+            </li>
+            <li>
+              <b><code>param_icen</code></b>
+                  (<code><a class="autorefs autorefs-internal" title="ice3_gt4py.phyex_common.rain_ice_param.ParamIce" href="../param_ice/#ice3_gt4py.phyex_common.param_ice.ParamIce">ParamIce</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>Control parameters for microphysics</p>
+              </div>
+            </li>
+            <li>
+              <b><code>rain_ice_descrn</code></b>
+                  (<code><a class="autorefs autorefs-internal" title="ice3_gt4py.phyex_common.rain_ice_param.RainIceDescr" href="../rain_ice_descr/#ice3_gt4py.phyex_common.rain_ice_descr.RainIceDescr">RainIceDescr</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>Microphysical descriptive constants</p>
+              </div>
+            </li>
+            <li>
+              <b><code>rain_ice_paramn</code></b>
+                  (<code><a class="autorefs autorefs-internal" title="ice3_gt4py.phyex_common.rain_ice_param.RainIceParam" href="../rain_ice_param/#ice3_gt4py.phyex_common.rain_ice_param.RainIceParam">RainIceParam</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>Microphysical factors</p>
+              </div>
+            </li>
+            <li>
+              <b><code>tstep</code></b>
+                  (<code>float</code>)
+              –
+              <div class="doc-md-description">
+                <p>time step employed for physics</p>
+              </div>
+            </li>
+            <li>
+              <b><code>itermax</code></b>
+                  (<code>int</code>, default:
+                      <code>1</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>number of iterations for ice adjust</p>
+              </div>
+            </li>
+            <li>
+              <b><code>lmfconv</code></b>
+                  (<code>bool</code>, default:
+                      <code>True</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>use convective mass flux in the condensation scheme</p>
+              </div>
+            </li>
+            <li>
+              <b><code>compute_src</code></b>
+                  (<code>bool</code>, default:
+                      <code>True</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>compute s'r'</p>
+              </div>
+            </li>
+            <li>
+              <b><code>khalo</code></b>
+                  (<code>int</code>, default:
+                      <code>1</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>size of the halo for parallel distribution (in turb)</p>
+              </div>
+            </li>
+            <li>
+              <b><code>program</code></b>
+                  (<code>str</code>, default:
+                      <code>&#39;AROME&#39;</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>Name of the model</p>
+              </div>
+            </li>
+            <li>
+              <b><code>nomixlg</code></b>
+                  (<code>bool</code>, default:
+                      <code>False</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>turbulence for lagrangian variables</p>
+              </div>
+            </li>
+            <li>
+              <b><code>ocean</code></b>
+                  (<code>bool</code>, default:
+                      <code>False</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>ocean version of the turbulent scheme</p>
+              </div>
+            </li>
+            <li>
+              <b><code>couples</code></b>
+                  (<code>bool</code>, default:
+                      <code>False</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>ocean atmo LES interactive coupling</p>
+              </div>
+            </li>
+            <li>
+              <b><code>blowsnow</code></b>
+                  (<code>bool</code>, default:
+                      <code>False</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>blowsnow</p>
+              </div>
+            </li>
+            <li>
+              <b><code>rsnow</code></b>
+                  (<code>float</code>, default:
+                      <code>1.0</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>blowing factor</p>
+              </div>
+            </li>
+            <li>
+              <b><code>lbcx</code></b>
+                  (<code><span title="typing.Tuple">Tuple</span>[str]</code>, default:
+                      <code>(&#39;CYCL&#39;, &#39;CYCL&#39;)</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>boundary conditions</p>
+              </div>
+            </li>
+            <li>
+              <b><code>lbcy</code></b>
+                  (<code><span title="typing.Tuple">Tuple</span>[str]</code>, default:
+                      <code>(&#39;CYCL&#39;, &#39;CYCL&#39;)</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>boundary conditions</p>
+              </div>
+            </li>
+            <li>
+              <b><code>ibm</code></b>
+                  (<code>bool</code>, default:
+                      <code>False</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>run with ibm$</p>
+              </div>
+            </li>
+            <li>
+              <b><code>flyer</code></b>
+                  (<code>bool</code>, default:
+                      <code>False</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>MesoNH flyer diagnostic</p>
+              </div>
+            </li>
+            <li>
+              <b><code>diag_in_run</code></b>
+                  (<code>bool</code>, default:
+                      <code>False</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>LES diagnostics</p>
+              </div>
+            </li>
+            <li>
+              <b><code>o2d</code></b>
+                  (<code>bool</code>, default:
+                      <code>False</code>
+)
+              –
+              <div class="doc-md-description">
+                <p>2D version of turbulence</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+            <details class="quote">
+              <summary>Source code in <code>src/ice3_gt4py/phyex_common/phyex.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@ported_class</span><span class="p">(</span><span class="n">from_file</span><span class="o">=</span><span class="s2">&quot;PHYEX/src/common/aux/modd_phyex.F90&quot;</span><span class="p">)</span>
+<span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">Phyex</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Data class for physics parametrizations</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        program (Literal): Switch between Meso-NH and AROME</span>
+<span class="sd">        timestep (float): timestep for physical parametrizations</span>
+
+<span class="sd">        cst (Constants): Physical constants description</span>
+<span class="sd">        param_icen (ParamIce): Control parameters for microphysics</span>
+<span class="sd">        rain_ice_descrn (RainIceDescr): Microphysical descriptive constants</span>
+<span class="sd">        rain_ice_paramn (RainIceParam): Microphysical factors</span>
+
+<span class="sd">        tstep (float): time step employed for physics</span>
+<span class="sd">        itermax (int): number of iterations for ice adjust</span>
+
+<span class="sd">        lmfconv (bool): use convective mass flux in the condensation scheme</span>
+<span class="sd">        compute_src (bool): compute s&#39;r&#39;</span>
+<span class="sd">        khalo (int): size of the halo for parallel distribution (in turb)</span>
+<span class="sd">        program (str): Name of the model</span>
+<span class="sd">        nomixlg (bool): turbulence for lagrangian variables</span>
+<span class="sd">        ocean (bool): ocean version of the turbulent scheme</span>
+<span class="sd">        couples (bool): ocean atmo LES interactive coupling</span>
+<span class="sd">        blowsnow (bool): blowsnow</span>
+<span class="sd">        rsnow (float): blowing factor</span>
+<span class="sd">        lbcx (Tuple[str]): boundary conditions</span>
+<span class="sd">        lbcy (Tuple[str]): boundary conditions</span>
+<span class="sd">        ibm (bool): run with ibm$</span>
+<span class="sd">        flyer (bool): MesoNH flyer diagnostic</span>
+<span class="sd">        diag_in_run (bool): LES diagnostics</span>
+<span class="sd">        o2d (bool): 2D version of turbulence</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">program</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;AROME&quot;</span><span class="p">,</span> <span class="s2">&quot;MESO-NH&quot;</span><span class="p">]</span>
+    <span class="n">timestep</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">cst</span><span class="p">:</span> <span class="n">Constants</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">param_icen</span><span class="p">:</span> <span class="n">ParamIce</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">rain_ice_descrn</span><span class="p">:</span> <span class="n">RainIceDescr</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">nebn</span><span class="p">:</span> <span class="n">Neb</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="n">itermax</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># Miscellaneous terms</span>
+    <span class="n">lmfconv</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">compute_src</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">khalo</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">program</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">&quot;AROME&quot;</span><span class="p">)</span>
+    <span class="n">nomixlg</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">ocean</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">deepoc</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">couples</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">blowsnow</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">rsnow</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">lbcx</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;CYCL&quot;</span><span class="p">,</span> <span class="s2">&quot;CYCL&quot;</span><span class="p">))</span>
+    <span class="n">lbcy</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;CYCL&quot;</span><span class="p">,</span> <span class="s2">&quot;CYCL&quot;</span><span class="p">))</span>
+    <span class="n">ibm</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">flyer</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">diag_in_run</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">o2d</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="c1"># flat: bool</span>
+    <span class="c1"># tbuconf: TBudgetConf</span>
+
+    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cst</span> <span class="o">=</span> <span class="n">Constants</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">param_icen</span> <span class="o">=</span> <span class="n">ParamIce</span><span class="p">(</span><span class="n">hprogram</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">program</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nebn</span> <span class="o">=</span> <span class="n">Neb</span><span class="p">(</span><span class="n">hprogram</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">program</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rain_ice_descrn</span> <span class="o">=</span> <span class="n">RainIceDescr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cst</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">param_icen</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+  </div>
+
+
+</div>
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+  </span>
+</div>
+    <script src="../../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../../..";</script>
+    <script src="../../../js/theme_extra.js"></script>
+    <script src="../../../js/theme.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

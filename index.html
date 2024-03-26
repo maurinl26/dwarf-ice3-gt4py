@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="description" content="None" />
+      <link rel="shortcut icon" href="img/favicon.ico" />
+    <title>dwarf-ice3-gt4py</title>
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="assets/_mkdocstrings.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Home";
+        var mkdocs_page_input_path = "index.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="." class="icon icon-home"> dwarf-ice3-gt4py
+        </a>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href=".">Home</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#dependencies">Dependencies</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#phyex">PHYEX</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#dwarf-p-cloudsc">dwarf-p-cloudsc</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#translation-notes">Translation notes</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="translation_options/">Translation Notes</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="microphysique/">Scientific Notes</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">ice3_gt4py</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="#">stencils</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="ice3_gt4py/stencils/aro_filter/">aro_filter</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="ice3_gt4py/stencils/ice_adjust/">ice_adjust</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">components</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="ice3_gt4py/components/aro_adjust/">aro_adjust</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="ice3_gt4py/components/ice_adjust/">ice_adjust</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">functions</a>
+    <ul>
+                <li class="toctree-l2"><a class="" href="ice3_gt4py/functions/backup">backup</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="ice3_gt4py/functions/compute_ice_frac">compute_ice_frac</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="ice3_gt4py/functions/condensation_src_1d">condensation_src_1d</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="ice3_gt4py/functions/erf">erf</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="ice3_gt4py/functions/gamma">gamma</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="ice3_gt4py/functions/ice_adjust">ice_adjust</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="ice3_gt4py/functions/ice4_sedimentation_stat">ice4_sedimentation_stat</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="ice3_gt4py/functions/icecloud">icecloud</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="ice3_gt4py/functions/sign">sign</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="ice3_gt4py/functions/src_1d">src_1d</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="ice3_gt4py/functions/subgrid_mf">subgrid_mf</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="ice3_gt4py/functions/temperature">temperature</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="ice3_gt4py/functions/tiwmx">tiwmx</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">phyex_common</a>
+    <ul>
+                <li class="toctree-l2"><a class="" href="ice3_gt4py/phyex_common/budget">budget</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="ice3_gt4py/phyex_common/constants">constants</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="ice3_gt4py/phyex_common/dimphyex">dimphyex</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="ice3_gt4py/phyex_common/nebn">nebn</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="ice3_gt4py/phyex_common/param_ice">param_ice</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="ice3_gt4py/phyex_common/phyex">phyex</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="ice3_gt4py/phyex_common/rain_ice_descr">rain_ice_descr</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="ice3_gt4py/phyex_common/rain_ice_param">rain_ice_param</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">initialisation</a>
+    <ul>
+                <li class="toctree-l2"><a class="" href="ice3_gt4py/initialisation/utils">utils</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="ice3_gt4py/initialisation/reference">reference</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="ice3_gt4py/initialisation/state">state</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">drivers</a>
+    <ul>
+                <li class="toctree-l2"><a class="" href="ice3_gt4py/drivers/config">config</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href=".">dwarf-ice3-gt4py</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Home</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h2 id="documentation">Documentation</h2>
+<p>dwarf-ice3-gt4py is a translation of Arome's microphysical parametrizations to GT4PY framework.</p>
+<h3 id="dependencies">Dependencies</h3>
+<p>The dwarf-ice3-gt4py project is built on GT4Py and ifs-physics-common:</p>
+<ul>
+<li><a href="https://github.com/GridTools/gt4py">gt4py</a>: implementation of HPC stencils using python DSL for GridTools.</li>
+<li><a href="https://github.com/stubbiali/ifs-physics-common">ifs-physics-common</a>: implementation of OOP overhead using ifs-physics-common which overload <a href="https://sympl.readthedocs.io/en/latest/">sympl</a> for proper description of model components and fields.</li>
+</ul>
+<h3 id="phyex">PHYEX</h3>
+<p>The project translates Arome's microphysics from <a href="https://github.com/UMR-CNRM/PHYEX">PHYEX</a> main branch. Microphysical parametrization are splitted in two parts :</p>
+<ol>
+<li>microphysical adjustments on vapour supersaturation,</li>
+<li>computation of microphysical sources and sedimentation process.</li>
+</ol>
+<p>Physical parametizations of Arome are described in <em>apl_arome.F90</em>. Entries for microphysical adjustments and sources computation are respectively <em>aro_adjust.F90</em> and <em>aro_rain_ice.F90</em>.</p>
+<h3 id="dwarf-p-cloudsc">dwarf-p-cloudsc</h3>
+<p>This project follows the example of <a href="https://github.com/ecmwf-ifs/dwarf-p-cloudsc">cloudsc</a> with its translation in GT4Py. </p>
+<h3 id="translation-notes">Translation notes</h3>
+<p>Since PHYEX parametrization are shared between Méso-NH, Arome and LMDZ, some parts of the source code have been omitted. The list of changes in translation between PHYEX microphysics and dwarf-ice3-gt4py can be found here : <a href="translation_options/">translation notes</a>.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="translation_options/" class="btn btn-neutral float-right" title="Translation Notes">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+      <span><a href="translation_options/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = ".";</script>
+    <script src="js/theme_extra.js"></script>
+    <script src="js/theme.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
+
+<!--
+MkDocs version : 1.5.3
+Build Date UTC : 2024-03-26 14:12:30.782475+00:00
+-->

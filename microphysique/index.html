@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Scientific Notes - dwarf-ice3-gt4py</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../assets/_mkdocstrings.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Scientific Notes";
+        var mkdocs_page_input_path = "microphysique.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> dwarf-ice3-gt4py
+        </a>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../translation_options/">Translation Notes</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Scientific Notes</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#sequence-des-parametrisations-physiques-darome">Séquence des Paramétrisations physiques d'Arome</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#ice-3">ICE 3</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#equation-pronostique-devolution">Equation pronostique d'évolution</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#remarque">Remarque</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#fermeture">Fermeture</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#ajustements-microphysiques">Ajustements microphysiques</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#condensation">Condensation</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#ajustement-de-la-temperature">Ajustement de la température</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#rain-ice">Rain Ice</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#sedimentation-arome">Sédimentation - AROME</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#sedimentation-meso-nh">Sédimentation - Méso-NH</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#advection-sedimentation-pour-fvm">Advection - Sédimentation pour FVM</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#processus-microphysiques-ice3">Processus microphysiques - ICE3</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#interactions-microphysique-turbulence-et-convection">Interactions Microphysique - Turbulence et Convection</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#shallow-convection">Shallow convection</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#condensation-de-sous-maille-meso-nh-arome">Condensation de sous-maille Méso-NH / AROME</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#interaction-avec-la-turbulence">Interaction avec la turbulence</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#couplage-physique-dynamique">Couplage Physique - Dynamique</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#cloud-scheme-ecmwf">Cloud Scheme - ECMWF</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#bases-theoriques-bulk-microphysics-parametrizations">Bases théoriques - Bulk Microphysics Parametrizations</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#contruction">Contruction</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#references">Références</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">ice3_gt4py</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="#">stencils</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../ice3_gt4py/stencils/aro_filter/">aro_filter</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../ice3_gt4py/stencils/ice_adjust/">ice_adjust</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">components</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../ice3_gt4py/components/aro_adjust/">aro_adjust</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../ice3_gt4py/components/ice_adjust/">ice_adjust</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">functions</a>
+    <ul>
+                <li class="toctree-l2"><a class="" href="../ice3_gt4py/functions/backup">backup</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../ice3_gt4py/functions/compute_ice_frac">compute_ice_frac</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../ice3_gt4py/functions/condensation_src_1d">condensation_src_1d</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../ice3_gt4py/functions/erf">erf</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../ice3_gt4py/functions/gamma">gamma</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../ice3_gt4py/functions/ice_adjust">ice_adjust</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../ice3_gt4py/functions/ice4_sedimentation_stat">ice4_sedimentation_stat</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../ice3_gt4py/functions/icecloud">icecloud</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../ice3_gt4py/functions/sign">sign</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../ice3_gt4py/functions/src_1d">src_1d</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../ice3_gt4py/functions/subgrid_mf">subgrid_mf</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../ice3_gt4py/functions/temperature">temperature</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../ice3_gt4py/functions/tiwmx">tiwmx</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">phyex_common</a>
+    <ul>
+                <li class="toctree-l2"><a class="" href="../ice3_gt4py/phyex_common/budget">budget</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../ice3_gt4py/phyex_common/constants">constants</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../ice3_gt4py/phyex_common/dimphyex">dimphyex</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../ice3_gt4py/phyex_common/nebn">nebn</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../ice3_gt4py/phyex_common/param_ice">param_ice</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../ice3_gt4py/phyex_common/phyex">phyex</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../ice3_gt4py/phyex_common/rain_ice_descr">rain_ice_descr</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../ice3_gt4py/phyex_common/rain_ice_param">rain_ice_param</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">initialisation</a>
+    <ul>
+                <li class="toctree-l2"><a class="" href="../ice3_gt4py/initialisation/utils">utils</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../ice3_gt4py/initialisation/reference">reference</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../ice3_gt4py/initialisation/state">state</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">drivers</a>
+    <ul>
+                <li class="toctree-l2"><a class="" href="../ice3_gt4py/drivers/config">config</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">dwarf-ice3-gt4py</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Scientific Notes</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="microphysique-arome-fvm">Microphysique Arome - FVM</h1>
+<p>Dans ce document, nous décrivons la microphysique paramétrée pour Arome, et son adaptation au noyau dynamique de FVM.</p>
+<p>2 options
+- ICE3 : schéma de microphysique à 1 moment.
+- LIMA : schéma de microphysique à 2 moments.</p>
+<h3 id="sequence-des-parametrisations-physiques-darome">Séquence des Paramétrisations physiques d'Arome</h3>
+<p>La microphysique est appelée dans l'étape d'ajustement (4. Microphysical Adjustments) et le calcul des sources et de la sédimentation (11. Microphysics).</p>
+<!-- ![Appel Arome](Appel_Arome_interactions.jpg) -->
+
+<pre><code class="language-mermaid">flowchart TD
+    A[Appel Arome] --&gt; D(4. Microphysics Adjustments )
+    D --&gt; E(6. Radiation)
+    E --&gt; F(7. Shallow Convection)
+    F --&gt; G(8. Surface)
+
+    H(9. Shallow Mass Flux Mixing) --&gt; I(10. Turbulence)
+    I --&gt; J(11. Microphysics)
+    J --&gt; K(12. Chemicals Scheme)
+
+    H --&gt; D
+</code></pre>
+<p><em>(Les numéros manquants concernent des opérations de conversion)</em></p>
+<h3 id="ice-3">ICE 3</h3>
+<p>ICE 3 utilise un schéma de microphysique à 6 espèces (vapeur, goutelettes, glace en suspension, eau de pluie, neige, graupel). La paramétrisation suit le schéma de Kessler pour les processus chauds, et une paramétrisation à 3 classes pour la glace.</p>
+<p>Il s'agit d'un schéma à un moment pour lequel les quantités suivies sont les contenus spécifiques des 6 espèces.</p>
+<p>Variables pronostiques :</p>
+<ol>
+<li>$q_{v}$ : contenu spécifique en vapeur d'eau ($kg.kg^{-1}$)</li>
+</ol>
+<p>Espèces précipitantes :</p>
+<ol>
+<li>$q_{r}$ : - en pluie ($kg.kg^{-1}$)</li>
+<li>$q_{s}$ : - en neige ($kg.kg^{-1}$)</li>
+<li>$q_{g}$ : - en grésil (graupel) ($kg.kg^{-1}$)</li>
+</ol>
+<p>Espèces non précipitantes :</p>
+<ol>
+<li>$q_{i}$ : - en cristaux de glace ($kg.kg^{-1}$)</li>
+<li>$q_{c}$ : - en goutelettes (cloud droplets) ($kg.kg^{-1}$)</li>
+</ol>
+<h4 id="equation-pronostique-devolution">Equation pronostique d'évolution</h4>
+<p>L'évolution des contenus spécifiques est régi par une équation d'advection qui prend en compte le processus de sédimentation pour les espèces précipitantes.</p>
+<p>Les variables du modèles sont <strong>x</strong>, t et D (le diamètre des hydrométéores) et le système d'équations est fermé par une relation diagnostique sur la répartition des espèces, en fonction du diamètre des hydrodmétéores.</p>
+<p>$$ \frac{\partial \rho r_x}{\partial t} + \frac{\partial \rho r_x(\omega - V^t_x)}{\partial z} = S_{micro} $$</p>
+<p>avec $V_x = 0$ pour les espèces non précipitantes (pas de sédimentation), et $V_x = 5 m.s^{-1}$ pour la pluie, $V_x = 0.3 m.s^{-1}$ pour la neige.</p>
+<p>$S_{micro}$ représente les sources microphysiques pour respectives pour chaque espèce.
+Plus de 25 processus sont modélisés dans ICE3. Chaque processus est traité séquentiellement, et l'ordre de traitement des processus a son importance. Le détail des sources est décrit dans le paragraphe <a href="#processus-microphysiques---ice3">processus microphysiques</a>.</p>
+<h4 id="remarque">Remarque</h4>
+<p>Pour Arome, $\rho$ est la masse volumique totale sur la maille et les contenus spécifiques sont définis par rapport à la masse totale de la maille.</p>
+<p>Pour Méso-NH et la microphysique, les contenus spécifiques sont définis par rapport à une masse volumique de référence telle que $\rho_{dref} r_x = \rho_{d} r_x^{'}$</p>
+<p>Dans le cas de FVM, $\rho = \rho_d$ est la masse volumique d'air sec de la maille et les contenus spécifiques sont définis par rapport à la masse d'air sec.</p>
+<h4 id="fermeture">Fermeture</h4>
+<p>La répartition des espèces d'eau est paramétrée par une loi Gamma généralisée, simplifiée par une loi de Marshall-Palmer :</p>
+<p>$$ n(D) = N_0 \lambda e^{-\lambda D} $$
+La masse et le vitesse finale de chute sont liées par une loi en puissance.</p>
+<p>$$m(D) = aD^b$$</p>
+<p>$$v(D) = (\frac{\rho_0}{\rho_{dref}})^{0.4}cD^d$$</p>
+<p>${a, b, c, d}$ sont donnés pour chacune des espèces dans la documentation de Méso-NH.</p>
+<p>Ces relations diagnostiques réalisent une fermeture de l'équation d'advection par la vitesse moyenne de chute pondérée par la masse (Lopez 2002).</p>
+<p>$$ V_x^t = \frac{\int_0^\infty v(D)m(D)n(D)\mathrm{d}D}{\int_0^\infty m(D)n(D)\mathrm{d}D}$$</p>
+<p>Le pas de temps utilisé pour la sédimentation est $\delta t$ = 3s.</p>
+<p>Arome utilise <a href="#sédimentation---arome">un schéma de sédimentation statistique</a> pour laquelle les composantes du flux de sédimentations sont paramétrés par une loi exponentielle. Le schéma est adapté aux long pas de temps et élimine les contraintes dues aux CFL de sédimentation.</p>
+<p>Pour FVM, nous utilisons le schéma d'advection de la dynamique pour résoudre la sédimentation de manière Eulérienne (MPDATA) ou semi-lagrangienne (FFSL). L'adaptation du noyau dynamique de FVM pour la sédimentation est donné <a href="#advection---sédimentation-pour-fvm">ci-dessous</a>.</p>
+<h4 id="ajustements-microphysiques">Ajustements microphysiques</h4>
+<p>Ajustement : les fractions massiques de goutelettes (<em>cloud droplets</em>) et de glace (<em>pristine ice</em>) issues de la sursaturation en vapeur sont calculées.</p>
+<p>Ces fractions massiques permettent de diagnostiquer la couverture nuageuse.</p>
+<p>L'étape d'ajustement force l'équilibre thermodynamique entre les espèces microphysiques et le champ de température, après élimination de la sursaturation en vapeur d'eau.</p>
+<p>L'étape d'ajustement utilise :
+- la sortie du modèle de convection (shallow convection) &rarr; subgrid cloud droplets mixing ratio and subgrid cloud ratio,
+- la sortie du modèle de turbulence &rarr; variance d'écart à la saturation.</p>
+<h4 id="condensation">Condensation</h4>
+<ol>
+<li>
+<p>Calcul des chaleurs latentes de vaporisation / sublimation :
+    $$ l_v = l_v(TT) + (C_v - C_l) * (T - TT)$$
+    $$ l_s = l_s(TT) + (C_v - C_i) * (T - TT)$$
+   où $TT$ est la température au point triple.</p>
+</li>
+<li>
+<p>Calcul de la capacité calorifique de la maille :
+    $$ C_p = C_{pd} + C_{pv} * r_v + C_l * (r_c + r_r) + C_i * (r_i + r_g + r_s)  $$</p>
+</li>
+<li>
+<p>Pressions de vapeur saturante (sur l'eau liquide et sur la glace ):</p>
+<p>$$ P_{sat(w)} = \mathrm{e}^{\alpha_w - \beta_w / T - \gamma_w  log(T)}$$
+$$ P_{sat(i)} = \mathrm{e}^{\alpha_i - \beta_i / T - \gamma_i  log(T)}$$</p>
+</li>
+<li>
+<p>Fraction de glace
+    $$ f = \frac{r_i}{r_c + r_i}$$</p>
+</li>
+<li>
+<p>Transformation isobare
+    $$ q_{sat(l)} = \frac{R_d}{R_v} \frac{P - P_{sat(w)}}{P_{sat(w)}} $$
+    $$ q_{sat(i)} = \frac{R_d}{R_v} \frac{P - P_{sat(i)}}{P_{sat(i)}} $$</p>
+</li>
+<li>
+<p>Interpolation entre liquide et solide pour une condensation multiphasique.
+    $$ q_{sat} = (1 - f) q_{sat(l)} + f q_{sat(i)} $$
+    $$ l_{vs} = (1 - f) l_v + f l_s$$</p>
+</li>
+</ol>
+<h4 id="ajustement-de-la-temperature">Ajustement de la température</h4>
+<p>La température est ajustée en fin de l'étape d'ajustement, une fois que les fractions de vapeur d'eau, d'eau liquide et de glace ont été réajustées.</p>
+<p>$$ T = T^<em> - \frac{L_v(T^</em>) r_c + L_s(T^*)r_i}{C_{ph}}$$</p>
+<p>Où $T^*$ est la température avant ajustement et $T$ après.</p>
+<p>Implémentation : la température est ajustée en une itération par méthode de Newton généralisée (à l'ordre 2). L'ajustement est réalisé en une itération suivant la procédure de Langlois (1973).</p>
+<h4 id="rain-ice">Rain Ice</h4>
+<p>Les précipitation de surfaces sont calculées par sédimentation, et les termes sources issus des transformations microphysiques sont diagnostiqués.</p>
+<p>Etapes :
+- Estimation des flux de sédimentation,
+- Calcul de la nucléation (formation d'espèces précipitantes),
+- Calcul des sources microphysiques.</p>
+<h3 id="sedimentation-arome">Sédimentation - AROME</h3>
+<p>L'équation de conservation du contenu en eau de pluie s'écrit :</p>
+<p>$$\frac{Dq_r}{Dt} = \frac{1}{\rho}\frac{\partial}{\partial z}F_r + s_r^o - s_r^i$$</p>
+<p>Schéma de sédimentation basé sur une densité de probabilité : adaptée aux longs pas de temps. Le flux sortant d'une cellule est composé :
+- des espèces précipitantes contenues dans la cellule à t et sorties à t + dt,
+- des espèces précipitantes traversant la cellule entre t et t + dt (CFL de sédimenation supérieures à 1).</p>
+<p>$$ F_r(j) = P_1 * \rho \frac{\delta z}{\delta t} q + P_2 * F_r(j-1) $$</p>
+<p>où q est issu des sources microphysiques.</p>
+<ul>
+<li>
+<p>Paramétrisation statistique :
+    On note $Z = \frac{z}{\omega t}$ avec $\omega_s$ vitesse moyenne de sédimentation.</p>
+<p>$Z$ suit une loi exponentielle, qui caractérise la durée de vie d'une particule de pluie au cours de la sédimentation. $Z$ est le rapport entre la distance parcourue $d = \omega \delta t$ et la taille caractéristique d'une maille $\delta z$.</p>
+<p>Densité de probabilité associée à $Z$ : $P_0(z) = \mathrm{e}^{-z}$</p>
+<p>Le flux sortant est alors décrit comme :
+- la fraction massique qui sort de la maille entre $t$ et $t + \delta t$ :
+    $$P_1 = \int_0^{\delta z} P_0(z, \delta t) dz $$</p>
+<ul>
+<li>la composante du flux entrant qui traverse la maille entre $t$ et $t + \delta t$ :
+    $$P_2 = \int_0^{\delta t} P_0(\delta z, t)dt $$</li>
+</ul>
+</li>
+</ul>
+<p>Le contenu en eau de pluie est mis à jour :</p>
+<p>$$ q_r^+ = q_r^- + \frac{\delta t}{\rho \delta z}(F_r(j-1) - F_r(j)) + s_r^o - s_r^i $$</p>
+<h3 id="sedimentation-meso-nh">Sédimentation - Méso-NH</h3>
+<p>Méso NH donne la possibilité de calculer la sédimentation par time-splitting. Les taux de sédimentations suivent une équation diagostique (qui dépend de la paramétrisation de Marshall-Palmer).</p>
+<p>On a alors</p>
+<p>$$ q_r^+ = q_r^- + \delta t R_{sed} + s_r^o - s_r^i$$</p>
+<p>où</p>
+<p>$$R_{sed} = \frac{1}{\rho}\frac{\partial}{\partial z}\int_0^\infty N(D)V(D) \frac{\pi}{6} \rho_{lw} D³V(D)N(D)\mathrm{d}D  $$</p>
+<p>Un schéma "upwind" explicite est utilisé pour la sédimentation avec un pas de temps déterminé à partir de la stabilité (CFL) du schéma pour une vitesse de 7 m/s.</p>
+<h3 id="advection-sedimentation-pour-fvm">Advection - Sédimentation pour FVM</h3>
+<p>L'exemple de la fraction massique de pluie est pris.</p>
+<ol>
+<li>Equation pronostique d'advection-sédimentation :
+$$ \frac{\partial \rho r_c}{\partial t} + \frac{\partial \rho r_c(\omega - V^t_r)}{\partial z} = S_{micro} $$
+où $V^t_r$ est la vitesse moyenne de chute pondérée par la masse.</li>
+</ol>
+<p>La vitesse de sédimentation diagnostique est donnée par la vitesse de chute moyenne pondérée par la masse (Lopez 2002) :</p>
+<p>$$V^t_r = C_{sed}(\frac{\rho_0}{\rho_{dref}})^{0.4} (\rho r_c)^{1/6}$$</p>
+<p>Cet équation diagnostique pour la vitesse est cohérente celle de Liu et Orville (1969) utilisée par Geleyn (2007) pour son approche statistique de la sédimentation.</p>
+<p>For notational commodity, we define
+$$ w_r = \omega - V^t_r$$</p>
+<p><em>Option 1</em> La relation d'advection-sédimentation devient :</p>
+<p>$$\frac{\partial \rho r_c}{\partial t} + \frac{\partial \rho r_c w_r }{\partial z} = S_{micro} $$</p>
+<!-- $$ \frac{\partial \rho r_c}{\partial t} + \frac{\partial \rho r_c\omega}{\partial z} - C_{sed}  (\frac{\rho_0}{\rho})^{0.4}\frac{7}{6} (\rho r_c)^{1/6} \frac{\partial \rho r_c}{\partial z}= S_{micro} + C_{sed} (\rho r_c)^{7/6} \frac{\partial}{\partial z}(\frac{\rho_0}{\rho})^{0.4}$$ -->
+
+<p><em>Option 2</em> Par simplification, on peut choisir une vitesse de sédimentation constante $V^t_r = V_{sed}$.(Lopez 2002) Lopez choisit des vitesses de sédimentation constantes, respectivement égales à $5.0 m.s^{-1}$ pour la pluie et $0.9 m.s^{-1}$ pour la neige et montre que l'utilisation d'une équation pronostique pour la vitesse finale de chute n'est pas nécessaire.</p>
+<ol>
+<li>Schéma d'advection - Intégration dans FVM</li>
+</ol>
+<p>La sédimentation est traitée par l'advection avec MPDATA, ce qui permet d'éliminer le calcul des flux de sédimentation dans la physique.</p>
+<p>En utilisant l'option non oscillatoire de MPDATA, l'advection-sédimentation garantit la positivité des contenus spécifiques et des fractions de nuages.</p>
+<h4 id="processus-microphysiques-ice3">Processus microphysiques - ICE3</h4>
+<ol>
+<li>Slow cold processes (ice4_slow)<ol>
+<li>NUCLEATION</li>
+<li>RRHONG : spontaneous freezing sources</li>
+<li>RIMLTC : cloud ice metling</li>
+<li>RSRIMCG</li>
+<li>RCHONI : homogeneous nucleation source</li>
+<li>RVDEPS : deposition on $r_s$</li>
+<li>RIAGGS : aggregation on $r_s$</li>
+<li>RIAUTS : autoconversion $r_i$ &rarr; $r_s$</li>
+<li>RVFEPG : deposition on graupel</li>
+</ol>
+</li>
+<li>
+<p>Slow warm processes (ice4_warm)</p>
+<ol>
+<li>RCAUTR : autoconversion of $r_c$ for $r_r$</li>
+<li>RCACCR : accretion of $r_c$ for $r_r$</li>
+<li>RREVAV : evaporation of $r_r$</li>
+</ol>
+</li>
+<li>
+<p>Fast cold processes for snow (fast_rs)</p>
+<ol>
+<li>cloud roplet riming of aggregates</li>
+<li>rain accretion onto aggregates</li>
+<li>conversion melting of aggregates</li>
+</ol>
+</li>
+<li>Fast cold processes for graupel (fast_rg)<ol>
+<li>rain contact freezing</li>
+<li>graupel growth</li>
+<li>accretion of rain drops on graupel</li>
+<li>melting of graupel</li>
+</ol>
+</li>
+<li>Fast Ri : Rergeron-Findeisen effect<ol>
+<li>RCBERI</li>
+</ol>
+</li>
+</ol>
+<h3 id="interactions-microphysique-turbulence-et-convection">Interactions Microphysique - Turbulence et Convection</h3>
+<h4 id="shallow-convection">Shallow convection</h4>
+<p>2 quantités sont diagnostiquées à partir du schéma de convection peu profonde.
+- $ C_f $ : cloud fraction proportionnelle à la surface de convective updraft.
+- $ r_{c - mf}, r_{i - mf}$ : flux de contenu en "cloud droplets" et en "pristine ice".</p>
+<p>Les 2 quantités sont proportionnelles à la surface de convective updraft (diagnostiquée à partir d'une équation sur le vent vertical).</p>
+<h4 id="condensation-de-sous-maille-meso-nh-arome">Condensation de sous-maille Méso-NH / AROME</h4>
+<p>La condensation de sous maille est fermée avec les hypothèses de Bougeault (1982).</p>
+<p>Bougeault définit les variables conservatives</p>
+<p>Extension à un schéma multiphase : une pondération par la fraction massique de glace est utilisée.</p>
+<h4 id="interaction-avec-la-turbulence">Interaction avec la turbulence</h4>
+<p>Schéma statistique de condensation de sous-maille : la variance de l'écart à la saturation est diagnostiquée par le schéma de turbulence.</p>
+<p>Exemple : si le contenu spécifique moyen en vapeur d'eau $q_{v}$ est nul sur la maille mais que la variance est non nulle, le contenu spécifique en gouttelettes $q_{c}$ peut être non nul.</p>
+<!-- ### LIMA (moments d'ordre 2)
+
+Utilisé en mode recherche pour l'investigation des interactions nuages - aérosols. -->
+
+<h3 id="couplage-physique-dynamique">Couplage Physique - Dynamique</h3>
+<p>Les espèces sont advectées par le schéma Semi-Lagrangien. Elles agissent sur les termes d'inertie et de gravité (équation du mouvement), et sur les termes d'inertie thermique (équation thermo).</p>
+<h3 id="cloud-scheme-ecmwf">Cloud Scheme - ECMWF</h3>
+<p>Tiedtke cloud scheme (1993) utilisé pour la microphysique. 2 variables pronostiques : couverture nuageuse horizontale de la maille + mass mixing ratio pour les condensats.</p>
+<p>4 variables pronostiques :
+1. Eau liquide (nuages)
+2. Glace (nuages)
+3. Pluie (précipitations)
+4. Neige (précipitations)</p>
+<ol>
+<li>Couverture nuageuse (cloud fraction)</li>
+</ol>
+<p>Contrairement à ICE3, le schéma de sédimentation est analytique &rarr; forward in time - upstream. La vitesse de chute est constante pour éviter les "chocs" numériques.</p>
+<h3 id="bases-theoriques-bulk-microphysics-parametrizations">Bases théoriques - Bulk Microphysics Parametrizations</h3>
+<ul>
+<li>Distributions de tailles hydrométéores : loi gamma</li>
+<li>Relations taille - propriétés : lois en puissance</li>
+</ul>
+<h4 id="contruction">Contruction</h4>
+<p>La disrtibution la plus probable est obtenue en maximisant l'entropy de Shannon</p>
+<p>$$ H = -k \int \rho(z)ln(\rho(z))dz$$
+avec $$ \rho(z) = n(z) / N $$ la probabilité d'occurence d'une particule.</p>
+<h3 id="references">Références</h3>
+<ol>
+<li>
+<p>Termonia, P., Fischer, C., Bazile, E., Bouyssel, F., Brožková, R., Bénard, P., Bochenek, B., Degrauwe, D., Derková, M., El Khatib, R., Hamdi, R., Mašek, J., Pottier, P., Pristov, N., Seity, Y., Smolíková, P., Španiel, O., Tudor, M., Wang, Y., Wittmann, C., and Joly, A.: The ALADIN System and its canonical model configurations AROME CY41T1 and ALARO CY40T1, Geosci. Model Dev., 11, 257–281, https://doi.org/10.5194/gmd-11-257-2018, 2018.</p>
+</li>
+<li>
+<p>Seity, Y., Brousseau, P., Malardel, S., Hello, G., Bénard, P., Bouttier,
+F., Lac, C., and Masson, V.: The AROME-France Convective-
+Scale Operational Model, Mon. Weather Rev., 139, 976–991,
+https://doi.org/10.1175/2010MWR3425.1, 2011.</p>
+</li>
+<li>
+<p>Lascaux, F., E. Richard, and J.-P. Pinty, 2006: Numerical simula-
+tions of three map IOPs and the associated microphysical
+processes. Quart. J. Roy. Meteor. Soc., 132, 1907–1926.</p>
+</li>
+<li>
+<p>Lopez, P. 2002. Implementation and validation of a new prognostic large-
+scale cloud and precipitation scheme for climate and data-assimilation
+purposes. Q. J. R. Meteorol. Soc. 128, 229–257.</p>
+</li>
+<li>
+<p>Langlois, W. E., 1973: A rapidly convergent procedure for computing large-scale condensation in
+a dynamical weather model. Tellus, 25 (1), 86–87, doi:10.1111/j.2153-3490.1973.tb01598.x.</p>
+</li>
+<li>Geleyn J.-F., Catry B, Bouteloup Y., Brozkova R. 2008. A statistical approach for sedimentation inside a microphysical precipitation scheme. Tellus.</li>
+<li>Bouteloup Y. Seity Y., Bazile E. 2010. Description fo the sedimentation scheme used operationnally in all Météo-France NWP Models. Tellus.</li>
+<li>Morrison H. 2011. On the Numerical Treatment of Hydrometeor Sedimentation in Buld and Hybrid Buld-Bin Microphysics Schemes. Monthly Weather Review.</li>
+<li>Bougeault P. 1982. Cloud-Ensembles Relations Based on the Gamma Probability Distribution for the Higher-Order Models of the Planetary Boundary Layer. Monthly Weather Review.</li>
+</ol>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../translation_options/" class="btn btn-neutral float-left" title="Translation Notes"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../ice3_gt4py/stencils/aro_filter/" class="btn btn-neutral float-right" title="aro_filter">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../translation_options/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../ice3_gt4py/stencils/aro_filter/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

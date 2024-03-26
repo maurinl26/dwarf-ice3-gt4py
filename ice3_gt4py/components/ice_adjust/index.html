@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../../img/favicon.ico" />
+    <title>ice_adjust - dwarf-ice3-gt4py</title>
+    <link rel="stylesheet" href="../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../../assets/_mkdocstrings.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "ice_adjust";
+        var mkdocs_page_input_path = "ice3_gt4py/components/ice_adjust.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../.." class="icon icon-home"> dwarf-ice3-gt4py
+        </a>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../translation_options/">Translation Notes</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../microphysique/">Scientific Notes</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">ice3_gt4py</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="#">stencils</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../stencils/aro_filter/">aro_filter</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../stencils/ice_adjust/">ice_adjust</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">components</a>
+    <ul class="current">
+                <li class="toctree-l2"><a class="reference internal" href="../aro_adjust/">aro_adjust</a>
+                </li>
+                <li class="toctree-l2 current"><a class="reference internal current" href="./">ice_adjust</a>
+    <ul class="current">
+    </ul>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">functions</a>
+    <ul>
+                <li class="toctree-l2"><a class="" href="../../functions/backup">backup</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../functions/compute_ice_frac">compute_ice_frac</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../functions/condensation_src_1d">condensation_src_1d</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../functions/erf">erf</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../functions/gamma">gamma</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../functions/ice_adjust">ice_adjust</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../functions/ice4_sedimentation_stat">ice4_sedimentation_stat</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../functions/icecloud">icecloud</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../functions/sign">sign</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../functions/src_1d">src_1d</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../functions/subgrid_mf">subgrid_mf</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../functions/temperature">temperature</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../functions/tiwmx">tiwmx</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">phyex_common</a>
+    <ul>
+                <li class="toctree-l2"><a class="" href="../../phyex_common/budget">budget</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../phyex_common/constants">constants</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../phyex_common/dimphyex">dimphyex</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../phyex_common/nebn">nebn</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../phyex_common/param_ice">param_ice</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../phyex_common/phyex">phyex</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../phyex_common/rain_ice_descr">rain_ice_descr</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../phyex_common/rain_ice_param">rain_ice_param</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">initialisation</a>
+    <ul>
+                <li class="toctree-l2"><a class="" href="../../initialisation/utils">utils</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../initialisation/reference">reference</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../initialisation/state">state</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">drivers</a>
+    <ul>
+                <li class="toctree-l2"><a class="" href="../../drivers/config">config</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../..">dwarf-ice3-gt4py</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../.." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">ice3_gt4py</li>
+          <li class="breadcrumb-item">components</li>
+      <li class="breadcrumb-item active">ice_adjust</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <div class="doc doc-object doc-module">
+
+
+
+<a id="ice3_gt4py.components.ice_adjust"></a>
+  <div class="doc doc-contents first">
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="ice3_gt4py.components.ice_adjust.IceAdjust" class="doc doc-heading">
+          <code>IceAdjust</code>
+
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+          <p class="doc doc-class-bases">
+            Bases: <code><span title="ifs_physics_common.framework.components.ImplicitTendencyComponent">ImplicitTendencyComponent</span></code></p>
+
+  
+      <p>Implicit Tendency Component calling
+ice_adjust : saturation adjustment of temperature and mixing ratios</p>
+<p>ice_adjust stencil is ice_adjust.F90 in PHYEX</p>
+
+            <details class="quote">
+              <summary>Source code in <code>src/ice3_gt4py/components/ice_adjust.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 18</span>
+<span class="normal"> 19</span>
+<span class="normal"> 20</span>
+<span class="normal"> 21</span>
+<span class="normal"> 22</span>
+<span class="normal"> 23</span>
+<span class="normal"> 24</span>
+<span class="normal"> 25</span>
+<span class="normal"> 26</span>
+<span class="normal"> 27</span>
+<span class="normal"> 28</span>
+<span class="normal"> 29</span>
+<span class="normal"> 30</span>
+<span class="normal"> 31</span>
+<span class="normal"> 32</span>
+<span class="normal"> 33</span>
+<span class="normal"> 34</span>
+<span class="normal"> 35</span>
+<span class="normal"> 36</span>
+<span class="normal"> 37</span>
+<span class="normal"> 38</span>
+<span class="normal"> 39</span>
+<span class="normal"> 40</span>
+<span class="normal"> 41</span>
+<span class="normal"> 42</span>
+<span class="normal"> 43</span>
+<span class="normal"> 44</span>
+<span class="normal"> 45</span>
+<span class="normal"> 46</span>
+<span class="normal"> 47</span>
+<span class="normal"> 48</span>
+<span class="normal"> 49</span>
+<span class="normal"> 50</span>
+<span class="normal"> 51</span>
+<span class="normal"> 52</span>
+<span class="normal"> 53</span>
+<span class="normal"> 54</span>
+<span class="normal"> 55</span>
+<span class="normal"> 56</span>
+<span class="normal"> 57</span>
+<span class="normal"> 58</span>
+<span class="normal"> 59</span>
+<span class="normal"> 60</span>
+<span class="normal"> 61</span>
+<span class="normal"> 62</span>
+<span class="normal"> 63</span>
+<span class="normal"> 64</span>
+<span class="normal"> 65</span>
+<span class="normal"> 66</span>
+<span class="normal"> 67</span>
+<span class="normal"> 68</span>
+<span class="normal"> 69</span>
+<span class="normal"> 70</span>
+<span class="normal"> 71</span>
+<span class="normal"> 72</span>
+<span class="normal"> 73</span>
+<span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">IceAdjust</span><span class="p">(</span><span class="n">ImplicitTendencyComponent</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Implicit Tendency Component calling</span>
+<span class="sd">    ice_adjust : saturation adjustment of temperature and mixing ratios</span>
+
+<span class="sd">    ice_adjust stencil is ice_adjust.F90 in PHYEX</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">computational_grid</span><span class="p">:</span> <span class="n">ComputationalGrid</span><span class="p">,</span>
+        <span class="n">gt4py_config</span><span class="p">:</span> <span class="n">GT4PyConfig</span><span class="p">,</span>
+        <span class="n">phyex</span><span class="p">:</span> <span class="n">Phyex</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">enable_checks</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">computational_grid</span><span class="p">,</span> <span class="n">enable_checks</span><span class="o">=</span><span class="n">enable_checks</span><span class="p">,</span> <span class="n">gt4py_config</span><span class="o">=</span><span class="n">gt4py_config</span>
+        <span class="p">)</span>
+
+        <span class="n">externals</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">externals</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">asdict</span><span class="p">(</span><span class="n">phyex</span><span class="o">.</span><span class="n">nebn</span><span class="p">))</span>
+        <span class="n">externals</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">asdict</span><span class="p">(</span><span class="n">phyex</span><span class="o">.</span><span class="n">cst</span><span class="p">))</span>
+        <span class="n">externals</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">asdict</span><span class="p">(</span><span class="n">phyex</span><span class="o">.</span><span class="n">param_icen</span><span class="p">))</span>
+        <span class="n">externals</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;nrr&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+                <span class="s2">&quot;criautc&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                <span class="s2">&quot;acriauti&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                <span class="s2">&quot;bcriauti&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                <span class="s2">&quot;criauti&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ice_adjust</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compile_stencil</span><span class="p">(</span><span class="s2">&quot;ice_adjust&quot;</span><span class="p">,</span> <span class="n">externals</span><span class="p">)</span>
+
+    <span class="nd">@cached_property</span>
+    <span class="k">def</span> <span class="nf">_input_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PropertyDict</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;f_sigqsat&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;grid&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span>
+                <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="p">},</span>  <span class="c1"># coeff applied to qsat variance</span>
+            <span class="s2">&quot;f_exnref&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;grid&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span> <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">},</span>  <span class="c1"># ref exner pression</span>
+            <span class="s2">&quot;f_exn&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;grid&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span> <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">},</span>
+            <span class="s2">&quot;f_rhodref&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;grid&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span> <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">},</span>  <span class="c1">#</span>
+            <span class="s2">&quot;f_pabs&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;grid&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span> <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">},</span>  <span class="c1"># absolute pressure at t</span>
+            <span class="s2">&quot;f_sigs&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;grid&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span> <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">},</span>  <span class="c1"># Sigma_s at time t</span>
+            <span class="s2">&quot;f_cf_mf&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;grid&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span>
+                <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="p">},</span>  <span class="c1"># convective mass flux fraction</span>
+            <span class="s2">&quot;f_rc_mf&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;grid&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span>
+                <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="p">},</span>  <span class="c1"># convective mass flux liquid mixing ratio</span>
+            <span class="s2">&quot;f_ri_mf&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;grid&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span> <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">},</span>
+            <span class="s2">&quot;f_th&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;grid&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span> <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">},</span>  <span class="c1"># ZRS(0)</span>
+            <span class="s2">&quot;f_rv&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;grid&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span> <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">},</span>  <span class="c1"># ZRS(1)</span>
+            <span class="s2">&quot;f_rc&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;grid&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span> <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">},</span>  <span class="c1"># ZRS(2)</span>
+            <span class="s2">&quot;f_rr&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;grid&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span> <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">},</span>  <span class="c1"># ZRS(3)</span>
+            <span class="s2">&quot;f_ri&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;grid&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span> <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">},</span>  <span class="c1"># ZRS(4)</span>
+            <span class="s2">&quot;f_rs&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;grid&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span> <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">},</span>  <span class="c1"># ZRS(5)</span>
+            <span class="s2">&quot;f_rg&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;grid&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span> <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">},</span>  <span class="c1"># ZRS(6)</span>
+        <span class="p">}</span>
+
+    <span class="nd">@cached_property</span>
+    <span class="k">def</span> <span class="nf">_tendency_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PropertyDict</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;f_ths&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;grid&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span> <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">},</span>
+            <span class="s2">&quot;f_rvs&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;grid&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span> <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">},</span>  <span class="c1"># PRS(1)</span>
+            <span class="s2">&quot;f_rcs&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;grid&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span> <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">},</span>  <span class="c1"># PRS(2)</span>
+            <span class="s2">&quot;f_ris&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;grid&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span> <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">},</span>  <span class="c1"># PRS(4)</span>
+        <span class="p">}</span>
+
+    <span class="nd">@cached_property</span>
+    <span class="k">def</span> <span class="nf">_diagnostic_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PropertyDict</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;f_cldfr&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;grid&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span> <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">},</span>
+            <span class="s2">&quot;f_ifr&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;grid&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span> <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">},</span>
+            <span class="s2">&quot;f_hlc_hrc&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;grid&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span> <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">},</span>
+            <span class="s2">&quot;f_hlc_hcf&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;grid&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span> <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">},</span>
+            <span class="s2">&quot;f_hli_hri&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;grid&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span> <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">},</span>
+            <span class="s2">&quot;f_hli_hcf&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;grid&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span> <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">},</span>
+        <span class="p">}</span>
+
+    <span class="nd">@cached_property</span>
+    <span class="k">def</span> <span class="nf">_temporaries</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PropertyDict</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;rt&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;grid&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span>
+                <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="p">},</span>  <span class="c1"># work array for total water mixing ratio</span>
+            <span class="s2">&quot;pv&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;grid&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span> <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">},</span>  <span class="c1"># thermodynamics</span>
+            <span class="s2">&quot;piv&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;grid&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span> <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">},</span>  <span class="c1"># thermodynamics</span>
+            <span class="s2">&quot;qsl&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;grid&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span> <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">},</span>  <span class="c1"># thermodynamics</span>
+            <span class="s2">&quot;qsi&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;grid&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span> <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">},</span>
+            <span class="s2">&quot;frac_tmp&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;grid&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span> <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">},</span>  <span class="c1"># ice fraction</span>
+            <span class="s2">&quot;cond_tmp&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;grid&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span> <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">},</span>  <span class="c1"># condensate</span>
+            <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;grid&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span> <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">},</span>  <span class="c1"># related to computation of Sig_s</span>
+            <span class="s2">&quot;sbar&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;grid&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span> <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">},</span>
+            <span class="s2">&quot;sigma&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;grid&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span> <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">},</span>
+            <span class="s2">&quot;q1&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;grid&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span> <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">},</span>
+            <span class="s2">&quot;lv&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;grid&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span> <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">},</span>
+            <span class="s2">&quot;ls&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;grid&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span> <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">},</span>
+            <span class="s2">&quot;cph&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;grid&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span> <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">},</span>
+            <span class="s2">&quot;criaut&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;grid&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span> <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">},</span>
+            <span class="s2">&quot;sigrc&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;grid&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span> <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">},</span>
+            <span class="s2">&quot;rv_tmp&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;grid&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span> <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">},</span>
+            <span class="s2">&quot;ri_tmp&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;grid&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span> <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">},</span>
+            <span class="s2">&quot;rc_tmp&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;grid&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span> <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">},</span>
+            <span class="s2">&quot;t_tmp&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;grid&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span> <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">},</span>
+        <span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">array_call</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">state</span><span class="p">:</span> <span class="n">NDArrayLikeDict</span><span class="p">,</span>
+        <span class="n">timestep</span><span class="p">:</span> <span class="n">timedelta</span><span class="p">,</span>
+        <span class="n">out_tendencies</span><span class="p">:</span> <span class="n">NDArrayLikeDict</span><span class="p">,</span>
+        <span class="n">out_diagnostics</span><span class="p">:</span> <span class="n">NDArrayLikeDict</span><span class="p">,</span>
+        <span class="n">overwrite_tendencies</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+        <span class="k">with</span> <span class="n">managed_temporary_storage</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">computational_grid</span><span class="p">,</span>
+            <span class="o">*</span><span class="n">repeat</span><span class="p">(((</span><span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span> <span class="s2">&quot;float&quot;</span><span class="p">),</span> <span class="mi">20</span><span class="p">),</span>
+            <span class="n">gt4py_config</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">gt4py_config</span><span class="p">,</span>
+        <span class="p">)</span> <span class="k">as</span> <span class="p">(</span>
+            <span class="n">rt</span><span class="p">,</span>
+            <span class="n">pv</span><span class="p">,</span>
+            <span class="n">piv</span><span class="p">,</span>
+            <span class="n">qsl</span><span class="p">,</span>
+            <span class="n">qsi</span><span class="p">,</span>
+            <span class="n">frac_tmp</span><span class="p">,</span>
+            <span class="n">cond_tmp</span><span class="p">,</span>
+            <span class="n">a</span><span class="p">,</span>
+            <span class="n">sbar</span><span class="p">,</span>
+            <span class="n">sigma</span><span class="p">,</span>
+            <span class="n">q1</span><span class="p">,</span>
+            <span class="n">lv</span><span class="p">,</span>
+            <span class="n">ls</span><span class="p">,</span>
+            <span class="n">cph</span><span class="p">,</span>
+            <span class="n">criaut</span><span class="p">,</span>
+            <span class="n">sigrc</span><span class="p">,</span>
+            <span class="n">rv_tmp</span><span class="p">,</span>
+            <span class="n">ri_tmp</span><span class="p">,</span>
+            <span class="n">rc_tmp</span><span class="p">,</span>
+            <span class="n">t_tmp</span><span class="p">,</span>
+        <span class="p">):</span>
+            <span class="n">inputs</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="n">maxsplit</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">1</span><span class="p">]:</span> <span class="n">state</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_properties</span>
+            <span class="p">}</span>
+            <span class="n">tendencies</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="n">maxsplit</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">1</span><span class="p">]:</span> <span class="n">out_tendencies</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tendency_properties</span>
+            <span class="p">}</span>
+            <span class="n">diagnostics</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="n">maxsplit</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">1</span><span class="p">]:</span> <span class="n">out_diagnostics</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">diagnostic_properties</span>
+            <span class="p">}</span>
+            <span class="n">temporaries</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;rt&quot;</span><span class="p">:</span> <span class="n">rt</span><span class="p">,</span>
+                <span class="s2">&quot;pv&quot;</span><span class="p">:</span> <span class="n">pv</span><span class="p">,</span>
+                <span class="s2">&quot;piv&quot;</span><span class="p">:</span> <span class="n">piv</span><span class="p">,</span>
+                <span class="s2">&quot;qsl&quot;</span><span class="p">:</span> <span class="n">qsl</span><span class="p">,</span>
+                <span class="s2">&quot;qsi&quot;</span><span class="p">:</span> <span class="n">qsi</span><span class="p">,</span>
+                <span class="s2">&quot;frac_tmp&quot;</span><span class="p">:</span> <span class="n">frac_tmp</span><span class="p">,</span>
+                <span class="s2">&quot;cond_tmp&quot;</span><span class="p">:</span> <span class="n">cond_tmp</span><span class="p">,</span>
+                <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="n">a</span><span class="p">,</span>
+                <span class="s2">&quot;sbar&quot;</span><span class="p">:</span> <span class="n">sbar</span><span class="p">,</span>
+                <span class="s2">&quot;sigma&quot;</span><span class="p">:</span> <span class="n">sigma</span><span class="p">,</span>
+                <span class="s2">&quot;q1&quot;</span><span class="p">:</span> <span class="n">q1</span><span class="p">,</span>
+                <span class="s2">&quot;lv&quot;</span><span class="p">:</span> <span class="n">lv</span><span class="p">,</span>
+                <span class="s2">&quot;ls&quot;</span><span class="p">:</span> <span class="n">ls</span><span class="p">,</span>
+                <span class="s2">&quot;cph&quot;</span><span class="p">:</span> <span class="n">cph</span><span class="p">,</span>
+                <span class="s2">&quot;criaut&quot;</span><span class="p">:</span> <span class="n">criaut</span><span class="p">,</span>
+                <span class="s2">&quot;sigrc&quot;</span><span class="p">:</span> <span class="n">sigrc</span><span class="p">,</span>
+                <span class="s2">&quot;rv_tmp&quot;</span><span class="p">:</span> <span class="n">rv_tmp</span><span class="p">,</span>
+                <span class="s2">&quot;ri_tmp&quot;</span><span class="p">:</span> <span class="n">ri_tmp</span><span class="p">,</span>
+                <span class="s2">&quot;rc_tmp&quot;</span><span class="p">:</span> <span class="n">rc_tmp</span><span class="p">,</span>
+                <span class="s2">&quot;t_tmp&quot;</span><span class="p">:</span> <span class="n">t_tmp</span><span class="p">,</span>
+            <span class="p">}</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">ice_adjust</span><span class="p">(</span>
+                <span class="o">**</span><span class="n">inputs</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">tendencies</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">diagnostics</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">temporaries</span><span class="p">,</span>
+                <span class="n">dt</span><span class="o">=</span><span class="n">timestep</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">(),</span>
+                <span class="n">origin</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+                <span class="n">domain</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">computational_grid</span><span class="o">.</span><span class="n">grids</span><span class="p">[</span><span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">K</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span>
+                <span class="n">validate_args</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">gt4py_config</span><span class="o">.</span><span class="n">validate_args</span><span class="p">,</span>
+                <span class="n">exec_info</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">gt4py_config</span><span class="o">.</span><span class="n">exec_info</span><span class="p">,</span>
+            <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+  </div>
+
+
+</div>
+
+
+
+
+  </div>
+
+  </div>
+
+</div>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../aro_adjust/" class="btn btn-neutral float-left" title="aro_adjust"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../aro_adjust/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+  </span>
+</div>
+    <script src="../../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../../..";</script>
+    <script src="../../../js/theme_extra.js"></script>
+    <script src="../../../js/theme.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

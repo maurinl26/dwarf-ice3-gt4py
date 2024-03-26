@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../../img/favicon.ico" />
+    <title>Icecloud - dwarf-ice3-gt4py</title>
+    <link rel="stylesheet" href="../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../../assets/_mkdocstrings.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Icecloud";
+        var mkdocs_page_input_path = "ice3_gt4py/functions/icecloud.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../.." class="icon icon-home"> dwarf-ice3-gt4py
+        </a>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../translation_options/">Translation Notes</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../../microphysique/">Scientific Notes</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">ice3_gt4py</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="#">stencils</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../stencils/aro_filter/">aro_filter</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../stencils/ice_adjust/">ice_adjust</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">components</a>
+    <ul>
+                <li class="toctree-l2"><a class="reference internal" href="../../components/aro_adjust/">aro_adjust</a>
+                </li>
+                <li class="toctree-l2"><a class="reference internal" href="../../components/ice_adjust/">ice_adjust</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">functions</a>
+    <ul>
+                <li class="toctree-l2"><a class="" href="../backup">backup</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../compute_ice_frac">compute_ice_frac</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../condensation_src_1d">condensation_src_1d</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../erf">erf</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../gamma">gamma</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../ice_adjust">ice_adjust</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../ice4_sedimentation_stat">ice4_sedimentation_stat</a>
+                </li>
+                <li class="toctree-l2"><a class="" href=".">icecloud</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../sign">sign</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../src_1d">src_1d</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../subgrid_mf">subgrid_mf</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../temperature">temperature</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../tiwmx">tiwmx</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">phyex_common</a>
+    <ul>
+                <li class="toctree-l2"><a class="" href="../../phyex_common/budget">budget</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../phyex_common/constants">constants</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../phyex_common/dimphyex">dimphyex</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../phyex_common/nebn">nebn</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../phyex_common/param_ice">param_ice</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../phyex_common/phyex">phyex</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../phyex_common/rain_ice_descr">rain_ice_descr</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../phyex_common/rain_ice_param">rain_ice_param</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">initialisation</a>
+    <ul>
+                <li class="toctree-l2"><a class="" href="../../initialisation/utils">utils</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../initialisation/reference">reference</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../initialisation/state">state</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">drivers</a>
+    <ul>
+                <li class="toctree-l2"><a class="" href="../../drivers/config">config</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../..">dwarf-ice3-gt4py</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../.." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Icecloud</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <div class="doc doc-object doc-module">
+
+
+
+<a id="ice3_gt4py.functions.icecloud"></a>
+  <div class="doc doc-contents first">
+
+  
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+
+<h2 id="ice3_gt4py.functions.icecloud.icecloud" class="doc doc-heading">
+          <code class="highlight language-python"><span class="n">icecloud</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">dz</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">tstep</span><span class="p">,</span> <span class="n">pblh</span><span class="p">,</span> <span class="n">wcld</span><span class="p">,</span> <span class="n">w2d</span><span class="p">,</span> <span class="n">sifrc</span><span class="p">,</span> <span class="n">ssio</span><span class="p">,</span> <span class="n">ssiu</span><span class="p">,</span> <span class="n">w2d_out</span><span class="p">,</span> <span class="n">rsi</span><span class="p">,</span> <span class="n">epsilo</span><span class="p">,</span> <span class="n">gravity0</span><span class="p">,</span> <span class="n">Rd</span><span class="p">,</span> <span class="n">lvtt</span><span class="p">,</span> <span class="n">cpd</span><span class="p">)</span></code>
+
+</h2>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>Calculate subgridscale fraction of supersaturation with respect to ice.
+Assume a linear distubution of relative humidity and let the variability
+ of humidity be a function of model level thickness.
+(Also a function of of humidity itself in the boundary layer)</p>
+
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>cst</code></b>
+                  (<code>Constants</code>)
+              –
+              <div class="doc-md-description">
+                <p><em>description</em></p>
+              </div>
+            </li>
+            <li>
+              <b><code>p</code></b>
+                  (<code><span title="gt4py.cartesian.gtscript.Field">Field</span>[<span title="gt4py.cartesian.gtscript.IJ">IJ</span>, float]</code>)
+              –
+              <div class="doc-md-description">
+                <p>pressure at model level (Pa)</p>
+              </div>
+            </li>
+            <li>
+              <b><code>z</code></b>
+                  (<code><span title="gt4py.cartesian.gtscript.Field">Field</span>[<span title="gt4py.cartesian.gtscript.IJ">IJ</span>, float]</code>)
+              –
+              <div class="doc-md-description">
+                <p>model level height (m)</p>
+              </div>
+            </li>
+            <li>
+              <b><code>dz</code></b>
+                  (<code><span title="gt4py.cartesian.gtscript.Field">Field</span>[<span title="gt4py.cartesian.gtscript.IJ">IJ</span>, float]</code>)
+              –
+              <div class="doc-md-description">
+                <p>model level thickness (m)</p>
+              </div>
+            </li>
+            <li>
+              <b><code>t</code></b>
+                  (<code><span title="gt4py.cartesian.gtscript.Field">Field</span>[<span title="gt4py.cartesian.gtscript.IJ">IJ</span>, float]</code>)
+              –
+              <div class="doc-md-description">
+                <p>temperature (K)</p>
+              </div>
+            </li>
+            <li>
+              <b><code>r</code></b>
+                  (<code><span title="gt4py.cartesian.gtscript.Field">Field</span>[<span title="gt4py.cartesian.gtscript.IJ">IJ</span>, float]</code>)
+              –
+              <div class="doc-md-description">
+                <p>model level humidity mixing ratio (kg/kg)</p>
+              </div>
+            </li>
+            <li>
+              <b><code>tstep</code></b>
+                  (<code>float</code>)
+              –
+              <div class="doc-md-description">
+                <p>timestep</p>
+              </div>
+            </li>
+            <li>
+              <b><code>pblh</code></b>
+                  (<code>float</code>)
+              –
+              <div class="doc-md-description">
+                <p>planetary layer height (m) (negative values means unknown)</p>
+              </div>
+            </li>
+            <li>
+              <b><code>wcld</code></b>
+                  (<code><span title="gt4py.cartesian.gtscript.Field">Field</span>[<span title="gt4py.cartesian.gtscript.IJ">IJ</span>, float]</code>)
+              –
+              <div class="doc-md-description">
+                <p>water and mixed phase cloud cover (negative value means unknown)</p>
+              </div>
+            </li>
+            <li>
+              <b><code>w2d_in</code></b>
+                  (<code>float</code>)
+              –
+              <div class="doc-md-description">
+                <p>quota between ice crystal concentration between dry and wet</p>
+              </div>
+            </li>
+            <li>
+              <b><code>sifrc</code></b>
+                  (<code><span title="gt4py.cartesian.gtscript.Field">Field</span>[<span title="gt4py.cartesian.gtscript.IJ">IJ</span>, float]</code>)
+              –
+              <div class="doc-md-description">
+                <p>subgridscale fraction with supersaturation respect to ice</p>
+              </div>
+            </li>
+            <li>
+              <b><code>ssio</code></b>
+                  (<code><span title="gt4py.cartesian.gtscript.Field">Field</span>[<span title="gt4py.cartesian.gtscript.IJ">IJ</span>, float]</code>)
+              –
+              <div class="doc-md-description">
+                <p>super-saturation with respect to ice in the supersaturated fraction</p>
+              </div>
+            </li>
+            <li>
+              <b><code>ssiu</code></b>
+                  (<code><span title="gt4py.cartesian.gtscript.Field">Field</span>[<span title="gt4py.cartesian.gtscript.IJ">IJ</span>, float]</code>)
+              –
+              <div class="doc-md-description">
+                <p>sub-saturation with respect to ice in the sub saturated fraction</p>
+              </div>
+            </li>
+            <li>
+              <b><code>w2d_out</code></b>
+                  (<code><span title="gt4py.cartesian.gtscript.Field">Field</span>[<span title="gt4py.cartesian.gtscript.IJ">IJ</span>, float]</code>)
+              –
+              <div class="doc-md-description">
+                <p>factor used ti get consistency between the mean value of the gridbox and parts of the grid box</p>
+              </div>
+            </li>
+            <li>
+              <b><code>rsi</code></b>
+                  (<code><span title="gt4py.cartesian.gtscript.Field">Field</span>[<span title="gt4py.cartesian.gtscript.IJ">IJ</span>, float]</code>)
+              –
+              <div class="doc-md-description">
+                <p>saturation mixing ratio over ice</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+    <th class="field-name">Returns:</th>
+    <td class="field-body">
+      <ul class="first simple">
+          <li>
+            –
+            <div class="doc-md-description">
+              <p>Tuple[Field]: sifrc, ssio, ssiu, w2d_out, rsi</p>
+            </div>
+          </li>
+      </ul>
+    </td>
+    </tr>
+  </tbody>
+</table>
+          <details class="quote">
+            <summary>Source code in <code>src/ice3_gt4py/functions/icecloud.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">  9</span>
+<span class="normal"> 10</span>
+<span class="normal"> 11</span>
+<span class="normal"> 12</span>
+<span class="normal"> 13</span>
+<span class="normal"> 14</span>
+<span class="normal"> 15</span>
+<span class="normal"> 16</span>
+<span class="normal"> 17</span>
+<span class="normal"> 18</span>
+<span class="normal"> 19</span>
+<span class="normal"> 20</span>
+<span class="normal"> 21</span>
+<span class="normal"> 22</span>
+<span class="normal"> 23</span>
+<span class="normal"> 24</span>
+<span class="normal"> 25</span>
+<span class="normal"> 26</span>
+<span class="normal"> 27</span>
+<span class="normal"> 28</span>
+<span class="normal"> 29</span>
+<span class="normal"> 30</span>
+<span class="normal"> 31</span>
+<span class="normal"> 32</span>
+<span class="normal"> 33</span>
+<span class="normal"> 34</span>
+<span class="normal"> 35</span>
+<span class="normal"> 36</span>
+<span class="normal"> 37</span>
+<span class="normal"> 38</span>
+<span class="normal"> 39</span>
+<span class="normal"> 40</span>
+<span class="normal"> 41</span>
+<span class="normal"> 42</span>
+<span class="normal"> 43</span>
+<span class="normal"> 44</span>
+<span class="normal"> 45</span>
+<span class="normal"> 46</span>
+<span class="normal"> 47</span>
+<span class="normal"> 48</span>
+<span class="normal"> 49</span>
+<span class="normal"> 50</span>
+<span class="normal"> 51</span>
+<span class="normal"> 52</span>
+<span class="normal"> 53</span>
+<span class="normal"> 54</span>
+<span class="normal"> 55</span>
+<span class="normal"> 56</span>
+<span class="normal"> 57</span>
+<span class="normal"> 58</span>
+<span class="normal"> 59</span>
+<span class="normal"> 60</span>
+<span class="normal"> 61</span>
+<span class="normal"> 62</span>
+<span class="normal"> 63</span>
+<span class="normal"> 64</span>
+<span class="normal"> 65</span>
+<span class="normal"> 66</span>
+<span class="normal"> 67</span>
+<span class="normal"> 68</span>
+<span class="normal"> 69</span>
+<span class="normal"> 70</span>
+<span class="normal"> 71</span>
+<span class="normal"> 72</span>
+<span class="normal"> 73</span>
+<span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@function</span>
+<span class="k">def</span> <span class="nf">icecloud</span><span class="p">(</span>
+    <span class="n">p</span><span class="p">:</span> <span class="n">Field</span><span class="p">[</span><span class="n">IJ</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+    <span class="n">z</span><span class="p">:</span> <span class="n">Field</span><span class="p">[</span><span class="n">IJ</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+    <span class="n">dz</span><span class="p">:</span> <span class="n">Field</span><span class="p">[</span><span class="n">IJ</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+    <span class="n">t</span><span class="p">:</span> <span class="n">Field</span><span class="p">[</span><span class="n">IJ</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+    <span class="n">r</span><span class="p">:</span> <span class="n">Field</span><span class="p">[</span><span class="n">IJ</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+    <span class="n">tstep</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">pblh</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">wcld</span><span class="p">:</span> <span class="n">Field</span><span class="p">[</span><span class="n">IJ</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+    <span class="n">w2d</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="c1"># Outputs</span>
+    <span class="n">sifrc</span><span class="p">:</span> <span class="n">Field</span><span class="p">[</span><span class="n">IJ</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+    <span class="n">ssio</span><span class="p">:</span> <span class="n">Field</span><span class="p">[</span><span class="n">IJ</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+    <span class="n">ssiu</span><span class="p">:</span> <span class="n">Field</span><span class="p">[</span><span class="n">IJ</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+    <span class="n">w2d_out</span><span class="p">:</span> <span class="n">Field</span><span class="p">[</span><span class="n">IJ</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+    <span class="n">rsi</span><span class="p">:</span> <span class="n">Field</span><span class="p">[</span><span class="n">IJ</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+    <span class="c1"># Constants</span>
+    <span class="n">epsilo</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">gravity0</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">Rd</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">lvtt</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">cpd</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate subgridscale fraction of supersaturation with respect to ice.</span>
+<span class="sd">    Assume a linear distubution of relative humidity and let the variability</span>
+<span class="sd">     of humidity be a function of model level thickness.</span>
+<span class="sd">    (Also a function of of humidity itself in the boundary layer)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        cst (Constants): _description_</span>
+<span class="sd">        p (Field[IJ, float]): pressure at model level (Pa)</span>
+<span class="sd">        z (Field[IJ, float]): model level height (m)</span>
+<span class="sd">        dz (Field[IJ, float]): model level thickness (m)</span>
+<span class="sd">        t (Field[IJ, float]): temperature (K)</span>
+<span class="sd">        r (Field[IJ, float]): model level humidity mixing ratio (kg/kg)</span>
+<span class="sd">        tstep (float): timestep</span>
+<span class="sd">        pblh (float): planetary layer height (m) (negative values means unknown)</span>
+<span class="sd">        wcld (Field[IJ, float]): water and mixed phase cloud cover (negative value means unknown)</span>
+<span class="sd">        w2d_in (float): quota between ice crystal concentration between dry and wet</span>
+
+<span class="sd">        sifrc (Field[IJ, float]): subgridscale fraction with supersaturation respect to ice</span>
+<span class="sd">        ssio (Field[IJ, float]): super-saturation with respect to ice in the supersaturated fraction</span>
+<span class="sd">        ssiu (Field[IJ, float]): sub-saturation with respect to ice in the sub saturated fraction</span>
+<span class="sd">        w2d_out (Field[IJ, float]): factor used ti get consistency between the mean value of the gridbox and parts of the grid box</span>
+<span class="sd">        rsi (Field[IJ, float]): saturation mixing ratio over ice</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Tuple[Field]: sifrc, ssio, ssiu, w2d_out, rsi</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sigmax</span> <span class="o">=</span> <span class="mf">3e-4</span>  <span class="c1"># assumed rh variation in x axis direction</span>
+    <span class="n">sigmay</span> <span class="o">=</span> <span class="n">sigmax</span>  <span class="c1"># assumed rh variation in y axis direction</span>
+    <span class="n">sigmaz</span> <span class="o">=</span> <span class="mf">1e-2</span>
+
+    <span class="n">xdist</span> <span class="o">=</span> <span class="mi">2500</span>  <span class="c1"># gridsize in  x axis (m)</span>
+    <span class="n">ydist</span> <span class="o">=</span> <span class="n">xdist</span>  <span class="c1"># gridsize in  y axis (m)</span>
+
+    <span class="n">zr</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">tstep</span><span class="p">)</span>
+    <span class="n">sifrc</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">zr</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="p">(</span><span class="n">epsilo</span> <span class="o">+</span> <span class="n">zr</span><span class="p">)</span>
+
+    <span class="c1"># TODO : implementer esatw, esati</span>
+    <span class="n">rhw</span> <span class="o">=</span> <span class="n">a</span> <span class="o">/</span> <span class="n">esatw</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+    <span class="n">rhi</span> <span class="o">=</span> <span class="n">a</span> <span class="o">/</span> <span class="n">esati</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+    <span class="n">i2w</span> <span class="o">=</span> <span class="n">esatw</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="n">esati</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+
+    <span class="n">ssiu</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">i2w</span><span class="p">,</span> <span class="n">rhi</span><span class="p">)</span>
+    <span class="n">ssio</span> <span class="o">=</span> <span class="n">ssiu</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">w2d</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="k">if</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">273.1</span> <span class="ow">or</span> <span class="n">r</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">esati</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="o">&gt;=</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">:</span>
+        <span class="n">ssiu</span> <span class="o">-=</span> <span class="mi">1</span>
+        <span class="n">ssio</span> <span class="o">=</span> <span class="n">ssiu</span>
+        <span class="k">if</span> <span class="n">wcld</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">sifrc</span> <span class="o">=</span> <span class="n">wcld</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">rhin</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">rhw</span><span class="p">))</span>
+    <span class="n">drhdz</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">rhin</span> <span class="o">*</span> <span class="n">gravity0</span> <span class="o">/</span> <span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">Rd</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">epsilo</span> <span class="o">*</span> <span class="n">lvtt</span> <span class="o">/</span> <span class="p">(</span><span class="n">cpd</span> <span class="o">*</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="n">zz</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">pblh</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="c1"># assume boundary layer height is not available</span>
+        <span class="n">zz</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">z</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mf">0.001</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="n">z</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">35</span> <span class="ow">and</span> <span class="n">z</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">pblh</span><span class="p">:</span>
+        <span class="n">zz</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="n">rhdist</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span>
+        <span class="n">xdist</span> <span class="o">*</span> <span class="n">sigmax</span><span class="o">**</span><span class="mi">2</span>
+        <span class="o">+</span> <span class="n">ydist</span> <span class="o">*</span> <span class="n">sigmay</span><span class="o">**</span><span class="mi">2</span>
+        <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">zz</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">dz</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">drhdz</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+        <span class="o">+</span> <span class="n">zz</span> <span class="o">*</span> <span class="n">dz</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">sigmaz</span><span class="o">**</span><span class="mi">2</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Compute rh variations in x, y, z direction as approximately independant</span>
+    <span class="c1"># except for the z variation</span>
+    <span class="c1"># z variation of rh is assumed to be fairly constantly increasing with height</span>
+    <span class="k">if</span> <span class="n">zz</span> <span class="o">&gt;</span> <span class="mf">0.1</span><span class="p">:</span>
+        <span class="n">rhdist</span> <span class="o">/=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">rhdist</span>
+
+    <span class="n">rhlim</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="mf">0.99</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">rhdist</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">wcld</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">rhdif</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">sqrt</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">rhw</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">rhlim</span><span class="p">)))</span>
+        <span class="n">wcld</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">rhdif</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">wcld</span> <span class="o">=</span> <span class="n">wcld</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">sifrc</span> <span class="o">=</span> <span class="n">wcld</span>
+
+    <span class="n">rhlimice</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">i2w</span> <span class="o">*</span> <span class="p">(</span><span class="n">rhlim</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">rhlim</span> <span class="o">&lt;</span> <span class="mf">0.999</span><span class="p">:</span>
+        <span class="n">rhliminv</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">rhlimice</span><span class="p">)</span>
+        <span class="n">rhdif</span> <span class="o">=</span> <span class="p">(</span><span class="n">rhi</span> <span class="o">-</span> <span class="n">rhlimice</span><span class="p">)</span> <span class="o">*</span> <span class="n">rhliminv</span>
+
+        <span class="k">if</span> <span class="n">wcld</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">sifrc</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">rhdif</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">sifrc</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">a</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">rhlim</span><span class="p">))</span>
+            <span class="n">sifrc</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">wcld</span> <span class="o">+</span> <span class="n">sifrc</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">sifrc</span> <span class="o">&gt;</span> <span class="mf">0.01</span><span class="p">:</span>
+        <span class="n">ssiu</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">a</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">rhlim</span><span class="p">))</span>
+        <span class="n">ssio</span> <span class="o">=</span> <span class="p">(</span><span class="n">rhi</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">sifrc</span><span class="p">)</span> <span class="o">*</span> <span class="n">ssiu</span><span class="p">)</span> <span class="o">/</span> <span class="n">sifrc</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">sifrc</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">a</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">rhlim</span><span class="p">))</span>
+        <span class="n">ssiu</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sifrc</span> <span class="o">+</span> <span class="n">rhlimice</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">sifrc</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">a</span><span class="p">)</span>
+
+    <span class="n">ssiu</span> <span class="o">-=</span> <span class="mi">1</span>
+    <span class="n">ssio</span> <span class="o">-=</span> <span class="mi">1</span>
+
+    <span class="k">if</span> <span class="n">w2d</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">w2d_out</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">w2d</span><span class="p">)</span> <span class="o">*</span> <span class="n">sifrc</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">sifrc</span><span class="p">,</span> <span class="n">ssio</span><span class="p">,</span> <span class="n">ssiu</span><span class="p">,</span> <span class="n">w2d_out</span><span class="p">,</span> <span class="n">rsi</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+
+  </div>
+
+  </div>
+
+</div>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+  </span>
+</div>
+    <script src="../../../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "../../..";</script>
+    <script src="../../../js/theme_extra.js"></script>
+    <script src="../../../js/theme.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
