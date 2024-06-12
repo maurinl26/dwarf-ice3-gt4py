@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
 
-from gt4py.cartesian.gtscript import Field, exp, computation, interval, PARALLEL
+from gt4py.cartesian import gtscript
+from gt4py.cartesian.gtscript import __INLINED, computation, interval, PARALLEL
 from ifs_physics_common.framework.stencil import stencil_collection
 from ifs_physics_common.utils.f2py import ported_method
 
@@ -9,41 +10,40 @@ from ifs_physics_common.utils.f2py import ported_method
 @ported_method(from_file="PHYEX/src/common/micro/mode_ice4_fast_ri.F90")
 @stencil_collection("ice4_fast_ri")
 def ice4_fast_ri(
-    ldcompute: Field["bool"],
-    rhodref: Field["float"],
-    lv_fact: Field["float"],
-    ls_fact: Field["float"],
-    ai: Field["float"],
-    cj: Field["float"],
-    ci_t: Field["float"],
-    ssi: Field["float"],
-    rc_t: Field["float"],
-    ri_t: Field["float"],
-    rc_beri_tnd: Field["float"],
-    ldsoft: "bool",
+    ldcompute: gtscript.Field["bool"],
+    rhodref: gtscript.Field["float"],
+    lv_fact: gtscript.Field["float"],
+    ls_fact: gtscript.Field["float"],
+    ai: gtscript.Field["float"],
+    cj: gtscript.Field["float"],
+    ci_t: gtscript.Field["float"],
+    ssi: gtscript.Field["float"],
+    rc_t: gtscript.Field["float"],
+    ri_t: gtscript.Field["float"],
+    rc_beri_tnd: gtscript.Field["float"],
 ):
     """Computes Bergeron-Findeisen effect RCBERI.
 
     Evaporation of cloud droplets for deposition over ice-crystals.
 
     Args:
-        lcompute (Field[bool]): switch to compute microphysical processes
-        lv_fact (Field[float]): latent heat of vaporisation
-        ls_fact (Field[float]): latent heat of sublimation
-        ai (Field[float]): thermodynamical function
-        cj (Field[float]): function to compute ventilation factor
-        ci_t (Field[float]): concentration of ice at t
-        ssi (Field[float]): supersaturation over ice
-        rc_t (Field[float]): cloud droplets mixing ratio at t
-        ri_t (Field[float]): pristine ice mixing ratio at t
-        rc_beri_tnd (Field[float]): tendency for Bergeron Findeisen effect
+        lcompute (gtscript.Field[bool]): switch to compute microphysical processes
+        lv_fact (gtscript.Field[float]): latent heat of vaporisation
+        ls_fact (gtscript.Field[float]): latent heat of sublimation
+        ai (gtscript.Field[float]): thermodynamical function
+        cj (gtscript.Field[float]): function to compute ventilation factor
+        ci_t (gtscript.Field[float]): concentration of ice at t
+        ssi (gtscript.Field[float]): supersaturation over ice
+        rc_t (gtscript.Field[float]): cloud droplets mixing ratio at t
+        ri_t (gtscript.Field[float]): pristine ice mixing ratio at t
+        rc_beri_tnd (gtscript.Field[float]): tendency for Bergeron Findeisen effect
     """
 
-    from __externals__ import C_RTMIN, DI, I_RTMIN, LBEXI, LBI, O0DEPI, O2DEPI
+    from __externals__ import LDSOFT, C_RTMIN, DI, I_RTMIN, LBEXI, LBI, O0DEPI, O2DEPI
 
     # 7.2 Bergeron-Findeisen effect: RCBERI
     with computation(PARALLEL), interval(...):
-        if not ldsoft:
+        if __INLINED(not LDSOFT):
             if (
                 ssi > 0
                 and rc_t > C_RTMIN

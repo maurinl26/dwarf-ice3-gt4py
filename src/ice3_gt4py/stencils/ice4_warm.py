@@ -1,53 +1,55 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
 
+from gt4py.cartesian import gtscript
 from gt4py.cartesian.gtscript import (
-    Field,
     exp,
     log,
     computation,
     PARALLEL,
     interval,
     __externals__,
+    __INLINED,
 )
 from ifs_physics_common.framework.stencil import stencil_collection
 
 
 @stencil_collection("ice4_warm")
 def ice4_slow(
-    ldcompute: Field["bool"],  # boolean field for microphysics computation
-    rhodref: Field["float"],
-    lv_fact: Field["float"],
-    t: Field["float"],  # temperature
-    pres: Field["float"],
-    tht: Field["float"],
-    lbdar: Field["float"],  # slope parameter for the rain drop distribution
-    lbdar_rf: Field["float"],  # slope parameter for the rain fraction part
-    ka: Field["float"],  # thermal conductivity of the air
-    dv: Field["float"],  # diffusivity of water vapour
-    cj: Field["float"],  # function to compute the ventilation coefficient
-    hlc_hcf: Field["float"],  # High Cloud Fraction in grid
-    hlc_lcf: Field["float"],  # Low Cloud Fraction in grid
-    hlc_hrc: Field["float"],  # LWC that is high in grid
-    hlc_lrc: Field["float"],  # LWC that is low in grid
-    cf: Field["float"],  # cloud fraction
-    rf: Field["float"],  # rain fraction
-    rv_t: Field["float"],  # water vapour mixing ratio at t
-    rc_t: Field["float"],  # cloud water mixing ratio at t
-    rr_t: Field["float"],  # rain water mixing ratio at t
-    rcautr: Field["float"],  # autoconversion of rc for rr production
-    rcaccr: Field["float"],  # accretion of r_c for r_r production
-    rrevav: Field["float"],  # evaporation of rr
-    ldsoft: "bool",
+    ldcompute: gtscript.Field[
+        "bool"
+    ],  # boolean gtscript.Field for microphysics computation
+    rhodref: gtscript.Field["float"],
+    lv_fact: gtscript.Field["float"],
+    t: gtscript.Field["float"],  # temperature
+    pres: gtscript.Field["float"],
+    tht: gtscript.Field["float"],
+    lbdar: gtscript.Field["float"],  # slope parameter for the rain drop distribution
+    lbdar_rf: gtscript.Field["float"],  # slope parameter for the rain fraction part
+    ka: gtscript.Field["float"],  # thermal conductivity of the air
+    dv: gtscript.Field["float"],  # diffusivity of water vapour
+    cj: gtscript.Field["float"],  # function to compute the ventilation coefficient
+    hlc_hcf: gtscript.Field["float"],  # High Cloud Fraction in grid
+    hlc_lcf: gtscript.Field["float"],  # Low Cloud Fraction in grid
+    hlc_hrc: gtscript.Field["float"],  # LWC that is high in grid
+    hlc_lrc: gtscript.Field["float"],  # LWC that is low in grid
+    cf: gtscript.Field["float"],  # cloud fraction
+    rf: gtscript.Field["float"],  # rain fraction
+    rv_t: gtscript.Field["float"],  # water vapour mixing ratio at t
+    rc_t: gtscript.Field["float"],  # cloud water mixing ratio at t
+    rr_t: gtscript.Field["float"],  # rain water mixing ratio at t
+    rcautr: gtscript.Field["float"],  # autoconversion of rc for rr production
+    rcaccr: gtscript.Field["float"],  # accretion of r_c for r_r production
+    rrevav: gtscript.Field["float"],  # evaporation of rr
 ):
     """Computes slow processes.
 
     Args:
-        ldcompute (Field[bool]): _description_
-        lv_fact (Field[float]): _description_
-        t (Field[float]): _description_
-        tht (Field[float]): _description_
-        lbdar (Field[float]): _description_
+        ldcompute (gtscript.Field[bool]): _description_
+        lv_fact (gtscript.Field[float]): _description_
+        t (gtscript.Field[float]): _description_
+        tht (gtscript.Field[float]): _description_
+        lbdar (gtscript.Field[float]): _description_
     """
     from __externals__ import (
         ALPW,
@@ -73,16 +75,14 @@ def ice4_slow(
         SUBG_RR_EVAP,
         TIMAUTC,
         TT,
+        LDSOFT,
     )
 
     # 4.2 compute the autoconversion of r_c for r_r : RCAUTR
     with computation(PARALLEL), interval(...):
         if hlc_hrc > C_RTMIN and hlc_hcf > 0 and ldcompute:
-            rcautr = (
-                TIMAUTC * max(hlc_hrc - hlc_hcf * CRIAUTC / rhodref, 0)
-                if not ldsoft
-                else rcautr
-            )
+            if __INLINED(not LDSOFT):
+                rcautr = TIMAUTC * max(hlc_hrc - hlc_hcf * CRIAUTC / rhodref, 0)
         else:
             rcautr = 0
 
@@ -92,11 +92,8 @@ def ice4_slow(
         # Translation note : HSUBG_RC_RR_ACCR=='NONE'
         if SUBG_RC_RR_ACCR == 0:
             if rc_t > C_RTMIN and rr_t > R_RTMIN and ldcompute:
-                rcaccr = (
-                    FCACCR * rc_t * lbdar * EXCACCR * rhodref ** (-CEXVT)
-                    if not ldsoft
-                    else rcaccr
-                )
+                if __INLINED(not LDSOFT):
+                    rcaccr = FCACCR * rc_t * lbdar * EXCACCR * rhodref ** (-CEXVT)
             else:
                 rcaccr = 0
 
@@ -108,7 +105,7 @@ def ice4_slow(
         # NONE in Fortran code
         if SUBG_RR_EVAP == 0:
             if rr_t > R_RTMIN and rc_t <= C_RTMIN and ldcompute:
-                if not ldsoft:
+                if __INLINED(not LDSOFT):
                     rrevav = exp(ALPW - BETAW / t - GAMW * log(t))
                     usw = 1 - rv_t * (pres - rrevav)
                     rrevav = (LVTT + (CPV - CL) * (t - TT)) ** 2 / (
@@ -121,19 +118,19 @@ def ice4_slow(
     # TODO : translate second option from line 178 to 227
     # HSUBG_RR_EVAP=='CLFR' .OR. HSUBG_RR_EVAP=='PRFR'
     with computation(PARALLEL), interval(...):
-        if SUBG_RR_EVAP == 1 or SUBG_RR_EVAP == 2:
+        if __INLINED(SUBG_RR_EVAP == 1 or SUBG_RR_EVAP == 2):
             # HSUBG_RR_EVAP=='CLFR'
-            if SUBG_RR_EVAP == 1:
+            if __INLINED(SUBG_RR_EVAP == 1):
                 zw4 = 1  # precipitation fraction
                 zw3 = lbdar
 
             # HSUBG_RR_EVAP=='PRFR'
-            elif SUBG_RR_EVAP == 2:
+            if __INLINED(SUBG_RR_EVAP == 2):
                 zw4 = rf  # precipitation fraction
                 zw3 = lbdar_rf
 
             if rr_t > R_RTMIN and zw4 > cf and ldcompute:
-                if not ldsoft:
+                if __INLINED(not LDSOFT):
                     # outside the cloud (environment) the use of T^u (unsaturated) instead of T
                     # ! Bechtold et al. 1993
 

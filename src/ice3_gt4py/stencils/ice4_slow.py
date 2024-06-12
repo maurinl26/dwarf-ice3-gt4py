@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
 
-from gt4py.cartesian.gtscript import Field, exp
+from gt4py.cartesian import gtscript
+from gt4py.cartesian.gtscript import exp, __INLINED, computation, interval, PARALLEL
 from ifs_physics_common.framework.stencil import stencil_collection
 from ifs_physics_common.utils.f2py import ported_method
 
@@ -9,54 +10,53 @@ from ifs_physics_common.utils.f2py import ported_method
 @ported_method(from_file="PHYEX/src/common/micro/mode_ice4_slow.F90")
 @stencil_collection("ice4_slow")
 def ice4_slow(
-    ldcompute: Field["bool"],
-    rhodref: Field["float"],
-    t: Field["float"],
-    ssi: Field["float"],
-    lv_fact: Field["float"],
-    ls_fact: Field["float"],
-    rv_t: Field["float"],
-    rc_t: Field["float"],
-    ri_t: Field["float"],
-    rs_t: Field["float"],
-    rg_t: Field["float"],
-    lbdas: Field["float"],
-    lbdag: Field["float"],
-    ai: Field["float"],
-    cj: Field["float"],
-    hli_hcf: Field["float"],
-    hli_hri: Field["float"],
-    rc_honi_tnd: Field["float"],
-    rv_deps_tnd: Field["float"],
-    ri_aggs_tnd: Field["float"],
-    ri_auts_tnd: Field["float"],
-    rv_depg_tnd: Field["float"],
-    ldsoft: "bool",
+    ldcompute: gtscript.Field["bool"],
+    rhodref: gtscript.Field["float"],
+    t: gtscript.Field["float"],
+    ssi: gtscript.Field["float"],
+    lv_fact: gtscript.Field["float"],
+    ls_fact: gtscript.Field["float"],
+    rv_t: gtscript.Field["float"],
+    rc_t: gtscript.Field["float"],
+    ri_t: gtscript.Field["float"],
+    rs_t: gtscript.Field["float"],
+    rg_t: gtscript.Field["float"],
+    lbdas: gtscript.Field["float"],
+    lbdag: gtscript.Field["float"],
+    ai: gtscript.Field["float"],
+    cj: gtscript.Field["float"],
+    hli_hcf: gtscript.Field["float"],
+    hli_hri: gtscript.Field["float"],
+    rc_honi_tnd: gtscript.Field["float"],
+    rv_deps_tnd: gtscript.Field["float"],
+    ri_aggs_tnd: gtscript.Field["float"],
+    ri_auts_tnd: gtscript.Field["float"],
+    rv_depg_tnd: gtscript.Field["float"],
 ):
     """Compute the slow processes
 
     Args:
-        ldcompute (Field[float]): switch to activate processes computation on column
-        rhodref (Field[float]): reference density
-        t (Field[float]): temperature
-        ssi (Field[float]): supersaturation over ice
-        lv_fact (Field[float]): vaporisation latent heat over heat capacity
-        ls_fact (Field[float]): sublimation latent heat over heat capacity
-        rv_t (Field[float]): vapour mixing ratio at t
-        ri_t (Field[float]): ice m.r. at t
-        rs_t (Field[float]): snow m.r. at t
-        rg_t (Field[float]): graupel m.r. at t
-        lbdag (Field[float]): slope parameter of the graupel distribution
-        lbdas (Field[float]): slope parameter of the snow distribution
-        ai (Field[float]): thermodynamical function
-        cj (Field[float]): function to compute the ventilation factor
-        hli_hcf (Field[float]): low clouds cloud fraction
-        hli_hri (Field[float]): low clouds ice mixing ratio
-        rc_honi_tnd (Field[float]): homogeneous nucelation
-        rv_deps_tnd (Field[float]): deposition on snow
-        ri_aggs_tnd (Field[float]): aggregation on snow
-        ri_auts_tnd (Field[float]): autoconversion of ice
-        rv_depg_tnd (Field[float]): deposition on graupel
+        ldcompute (gtscript.Field[float]): switch to activate processes computation on column
+        rhodref (gtscript.Field[float]): reference density
+        t (gtscript.Field[float]): temperature
+        ssi (gtscript.Field[float]): supersaturation over ice
+        lv_fact (gtscript.Field[float]): vaporisation latent heat over heat capacity
+        ls_fact (gtscript.Field[float]): sublimation latent heat over heat capacity
+        rv_t (gtscript.Field[float]): vapour mixing ratio at t
+        ri_t (gtscript.Field[float]): ice m.r. at t
+        rs_t (gtscript.Field[float]): snow m.r. at t
+        rg_t (gtscript.Field[float]): graupel m.r. at t
+        lbdag (gtscript.Field[float]): slope parameter of the graupel distribution
+        lbdas (gtscript.Field[float]): slope parameter of the snow distribution
+        ai (gtscript.Field[float]): thermodynamical function
+        cj (gtscript.Field[float]): function to compute the ventilation factor
+        hli_hcf (gtscript.Field[float]): low clouds cloud fraction
+        hli_hri (gtscript.Field[float]): low clouds ice mixing ratio
+        rc_honi_tnd (gtscript.Field[float]): homogeneous nucelation
+        rv_deps_tnd (gtscript.Field[float]): deposition on snow
+        ri_aggs_tnd (gtscript.Field[float]): aggregation on snow
+        ri_auts_tnd (gtscript.Field[float]): autoconversion of ice
+        rv_depg_tnd (gtscript.Field[float]): deposition on graupel
     """
 
     from __externals__ import (
@@ -86,16 +86,16 @@ def ice4_slow(
         TIMAUTI,
         TT,
         V_RTMIN,
+        LDSOFT,
     )
 
     # 3.2 compute the homogeneous nucleation source : RCHONI
     with computation(PARALLEL), interval(...):
         if t < TT - 35.0 and rc_t > C_RTMIN and ldcompute:
-            rc_honi_tnd = (
-                min(1000, HON * rhodref * rc_t * exp(ALPHA3 * (t - TT) - BETA3))
-                if not ldsoft
-                else rc_honi_tnd
-            )
+            if __INLINED(not LDSOFT):
+                rc_honi_tnd = min(
+                    1000, HON * rhodref * rc_t * exp(ALPHA3 * (t - TT) - BETA3)
+                )
 
         else:
             rc_honi_tnd = 0
@@ -106,12 +106,11 @@ def ice4_slow(
         if rv_t < V_RTMIN and rs_t < S_RTMIN and ldcompute:
             # Translation note : #ifdef REPRO48 l118 to 120 kept
             # Translation note : #else REPRO48  l121 to 126 omitted
-            rv_deps_tnd = (
-                (ssi / (rhodref * ai))
-                * (O0DEPS * lbdas**EX0DEPS + O1DEPS * cj * lbdas**EX1DEPS)
-                if not ldsoft
-                else rv_deps_tnd
-            )
+
+            if __INLINED(not LDSOFT):
+                rv_deps_tnd = (ssi / (rhodref * ai)) * (
+                    O0DEPS * lbdas**EX0DEPS + O1DEPS * cj * lbdas**EX1DEPS
+                )
 
         else:
             rv_deps_tnd = 0
@@ -121,17 +120,14 @@ def ice4_slow(
         if ri_t > I_RTMIN and rs_t > S_RTMIN and ldcompute:
             # Translation note : #ifdef REPRO48 l138 to 142 kept
             # Translation note : #else REPRO48 l143 to 150 omitted
-            ri_aggs_tnd = (
-                (
+            if __INLINED(not LDSOFT):
+                ri_aggs_tnd = (
                     FIAGGS
                     * exp(COLEXIS * (t - TT))
                     * ri_t
                     * lbdas**EXIAGGS
                     * rhodref ** (-CEXVT)
                 )
-                if not ldsoft
-                else ri_aggs_tnd
-            )
 
         # Translation note : OELEC = False l151 omitted
         else:
@@ -140,7 +136,7 @@ def ice4_slow(
     # 3.4.5 compute the autoconversion of r_i for r_s production: RIAUTS
     with computation(PARALLEL), interval(...):
         if hli_hri > I_RTMIN and ldcompute:
-            if not ldsoft:
+            if __INLINED(not LDSOFT):
                 criauti_tmp = min(CRIAUTI, 10 ** (ACRIAUTI * (t - TT) + BCRIAUTI))
                 ri_auts_tnd = (
                     TIMAUTI
@@ -154,12 +150,10 @@ def ice4_slow(
     # 3.4.6 compute the depsoition on r_g: RVDEPG
     with computation(PARALLEL), interval(...):
         if rv_t > V_RTMIN and rg_t > G_RTMIN and ldcompute:
-            rv_depg_tnd = (
-                (ssi / (rhodref * ai))
-                * (O0DEPG * lbdag**EX0DEPG + O1DEPG * cj * lbdag**EX1DEPG)
-                if not ldsoft
-                else rv_depg_tnd
-            )
+            if __INLINED(not LDSOFT):
+                rv_depg_tnd = (ssi / (rhodref * ai)) * (
+                    O0DEPG * lbdag**EX0DEPG + O1DEPG * cj * lbdag**EX1DEPG
+                )
 
         else:
             rv_depg_tnd = 0

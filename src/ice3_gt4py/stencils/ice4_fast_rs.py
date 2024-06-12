@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
 
+from gt4py.cartesian import gtscript
 from gt4py.cartesian.gtscript import (
-    Field,
-    GlobalTable,
     __externals__,
+    __INLINED,
     exp,
     log,
     computation,
@@ -25,82 +25,81 @@ from ice3_gt4py.functions.sign import sign
 @ported_method(from_file="PHYEX/src/common/micro/mode_ice4_fast_rs.F90")
 @stencil_collection("ice4_fast_rs")
 def ice4_fast_rs(
-    ldsoft: "bool",
-    ldcompute: Field["bool"],
-    rhodref: Field["float"],
-    lv_fact: Field["float"],
-    ls_fact: Field["float"],
-    pres: Field["float"],
-    dv: Field["float"],
-    ka: Field["float"],
-    cj: Field["float"],
-    lbdar: Field["float"],
-    lbdas: Field["float"],
-    t: Field["float"],
-    rv_t: Field["float"],
-    rc_t: Field["float"],
-    rr_t: Field["float"],
-    rs_t: Field["float"],
-    riaggs: Field["float"],
-    rcrimss: Field["float"],
-    rcrimsg: Field["float"],
-    rsrimcg: Field["float"],
-    rraccss: Field["float"],
-    rraccsg: Field["float"],
-    rsaccrg: Field["float"],
-    rs_mltg_tnd: Field["float"],
-    rc_mltsr_tnd: Field["float"],
-    rs_rcrims_tnd: Field["float"],
-    rs_rcrimss_tnd: Field["float"],
-    rs_rsrimcg_tnd: Field["float"],
-    rs_rraccs_tnd: Field["float"],
-    rs_rraccss_tnd: Field["float"],
-    rs_rsaccrg_tnd: Field["float"],
-    rs_freez1_tnd: Field["float"],
-    rs_freez2_tnd: Field["float"],
-    gaminc_rim1: GlobalTable[float, (80)],
-    gaminc_rim2: GlobalTable[float, (80)],
-    gaminc_rim4: GlobalTable[float, (80)],
-    ker_raccs: GlobalTable[float, (40, 40)],
-    ker_raccss: GlobalTable[float, (40, 40)],
-    ker_saccrg: GlobalTable[float, (40, 40)],
-    index_floor: Field["int"],
-    index_floor_r: Field["int"],
-    index_floor_s: Field["int"],
+    ldcompute: gtscript.Field["bool"],
+    rhodref: gtscript.Field["float"],
+    lv_fact: gtscript.Field["float"],
+    ls_fact: gtscript.Field["float"],
+    pres: gtscript.Field["float"],
+    dv: gtscript.Field["float"],
+    ka: gtscript.Field["float"],
+    cj: gtscript.Field["float"],
+    lbdar: gtscript.Field["float"],
+    lbdas: gtscript.Field["float"],
+    t: gtscript.Field["float"],
+    rv_t: gtscript.Field["float"],
+    rc_t: gtscript.Field["float"],
+    rr_t: gtscript.Field["float"],
+    rs_t: gtscript.Field["float"],
+    riaggs: gtscript.Field["float"],
+    rcrimss: gtscript.Field["float"],
+    rcrimsg: gtscript.Field["float"],
+    rsrimcg: gtscript.Field["float"],
+    rraccss: gtscript.Field["float"],
+    rraccsg: gtscript.Field["float"],
+    rsaccrg: gtscript.Field["float"],
+    rs_mltg_tnd: gtscript.Field["float"],
+    rc_mltsr_tnd: gtscript.Field["float"],
+    rs_rcrims_tnd: gtscript.Field["float"],
+    rs_rcrimss_tnd: gtscript.Field["float"],
+    rs_rsrimcg_tnd: gtscript.Field["float"],
+    rs_rraccs_tnd: gtscript.Field["float"],
+    rs_rraccss_tnd: gtscript.Field["float"],
+    rs_rsaccrg_tnd: gtscript.Field["float"],
+    rs_freez1_tnd: gtscript.Field["float"],
+    rs_freez2_tnd: gtscript.Field["float"],
+    gaminc_rim1: gtscript.GlobalTable[float, (80)],
+    gaminc_rim2: gtscript.GlobalTable[float, (80)],
+    gaminc_rim4: gtscript.GlobalTable[float, (80)],
+    ker_raccs: gtscript.GlobalTable[float, (40, 40)],
+    ker_raccss: gtscript.GlobalTable[float, (40, 40)],
+    ker_saccrg: gtscript.GlobalTable[float, (40, 40)],
+    index_floor: gtscript.Field["int"],
+    index_floor_r: gtscript.Field["int"],
+    index_floor_s: gtscript.Field["int"],
 ):
     """Computes fast processes for snow
 
     Args:
-        ldsoft (bool): switch to recompute sources or adapt tendencies
-        ldcompute (Field[bool]): mask for sources computations
-        rhodref (Field[float]): dry density of air
-        lv_fact (Field[float]): latent heat of vapourisation over heat capacity
-        ls_fact (Field[float]): latent heat of sublimation over heat capacity
-        pres (Field[float]): absolute pressure
-        rr_t (Field[float]): rain m.r. at t
-        rs_t (Field[float]): snow m.r. at t
-        riaggs (Field[float]): ice aggregation to snow
-        rsrimcg (Field[float]): snow riming over graupel
-        rraccss (Field[float]): accretion of rain and aggregates
-        rsaccrg (Field[float]): accretion of graupel
-        rs_mltg_tnd (Field[float]): melting of snow
-        rs_rsrimcg_tnd (Field[float]): heavy riming of the aggregates
-        rs_rraccs_tnd (Field[float]): accretion of rain and aggregates
-        rs_rraccss_tnd (Field[float]): accretion of rain and aggregates
-        rs_rsaccrg_tnd (Field[float]): accretion of rain and aggregates
-        rs_freez1_tnd (Field[float]): snow freezing source (tendency)
-        rs_freez2_tnd (Field[float]): snow freezing source (tendency)
-        gaminc_rim1 (GlobalTable[float,): look up table for riming
-        gaminc_rim2 (GlobalTable[float,): look up table for riming
-        gaminc_rim4 (GlobalTable[float,): look up table for riming
-        ker_raccs (GlobalTable[float,): look-up table for rain accretion over snow
-        ker_raccss (GlobalTable[float,): look-up table for rain accretion over snow
-        ker_saccrg (GlobalTable[float,): look-up table for snow accretion over graupel
-        index_floor (Field[int]): integer index for riming look up tables
-        index_floor_r (Field[int]): integer index for accretion look up tables
-        index_floor_s (Field[int]): integer index for accretion look up tables
+        ldcompute (gtscript.Field[bool]): mask for sources computations
+        rhodref (gtscript.Field[float]): dry density of air
+        lv_fact (gtscript.Field[float]): latent heat of vapourisation over heat capacity
+        ls_fact (gtscript.Field[float]): latent heat of sublimation over heat capacity
+        pres (gtscript.Field[float]): absolute pressure
+        rr_t (gtscript.Field[float]): rain m.r. at t
+        rs_t (gtscript.Field[float]): snow m.r. at t
+        riaggs (gtscript.Field[float]): ice aggregation to snow
+        rsrimcg (gtscript.Field[float]): snow riming over graupel
+        rraccss (gtscript.Field[float]): accretion of rain and aggregates
+        rsaccrg (gtscript.Field[float]): accretion of graupel
+        rs_mltg_tnd (gtscript.Field[float]): melting of snow
+        rs_rsrimcg_tnd (gtscript.Field[float]): heavy riming of the aggregates
+        rs_rraccs_tnd (gtscript.Field[float]): accretion of rain and aggregates
+        rs_rraccss_tnd (gtscript.Field[float]): accretion of rain and aggregates
+        rs_rsaccrg_tnd (gtscript.Field[float]): accretion of rain and aggregates
+        rs_freez1_tnd (gtscript.Field[float]): snow freezing source (tendency)
+        rs_freez2_tnd (gtscript.Field[float]): snow freezing source (tendency)
+        gaminc_rim1 (gtscript.GlobalTable[float,): look up table for riming
+        gaminc_rim2 (gtscript.GlobalTable[float,): look up table for riming
+        gaminc_rim4 (gtscript.GlobalTable[float,): look up table for riming
+        ker_raccs (gtscript.GlobalTable[float,): look-up table for rain accretion over snow
+        ker_raccss (gtscript.GlobalTable[float,): look-up table for rain accretion over snow
+        ker_saccrg (gtscript.GlobalTable[float,): look-up table for snow accretion over graupel
+        index_floor (gtscript.Field[int]): integer index for riming look up tables
+        index_floor_r (gtscript.Field[int]): integer index for accretion look up tables
+        index_floor_s (gtscript.Field[int]): integer index for accretion look up tables
     """
     from __externals__ import (
+        LDSOFT,
         ALPI,
         ALPW,
         BETAI,
@@ -198,22 +197,23 @@ def ice4_fast_rs(
 
     # Interpolation + Lookup Table
     with computation(PARALLEL), interval(...):
-        if (not ldsoft) and grim_tmp:
-            # Translation note : LDPACK is False l46 to l88 removed in interp_micro.func.h
-            #                                    l90 to l123 kept
-            index_floor, index_float = index_interp_micro_1d(zw_tmp)
-            zw1_tmp = (
-                index_float * gaminc_rim1.A[index_floor + 1]
-                + (1 - index_float) * gaminc_rim1.A[index_floor]
-            )
-            zw2_tmp = (
-                index_float * gaminc_rim2.A[index_floor + 1]
-                + (1 - index_float) * gaminc_rim2.A[index_floor]
-            )
-            zw3_tmp = (
-                index_float * gaminc_rim4.A[index_floor + 1]
-                + (1 - index_float) * gaminc_rim4.A[index_floor]
-            )
+        if __INLINED(not LDSOFT):
+            if grim_tmp:
+                # Translation note : LDPACK is False l46 to l88 removed in interp_micro.func.h
+                #                                    l90 to l123 kept
+                index_floor, index_float = index_interp_micro_1d(zw_tmp)
+                zw1_tmp = (
+                    index_float * gaminc_rim1.A[index_floor + 1]
+                    + (1 - index_float) * gaminc_rim1.A[index_floor]
+                )
+                zw2_tmp = (
+                    index_float * gaminc_rim2.A[index_floor + 1]
+                    + (1 - index_float) * gaminc_rim2.A[index_floor]
+                )
+                zw3_tmp = (
+                    index_float * gaminc_rim4.A[index_floor + 1]
+                    + (1 - index_float) * gaminc_rim4.A[index_floor]
+                )
 
     # 5.1.4 riming of the small sized aggregates
     with computation(PARALLEL), interval(...):
@@ -235,7 +235,7 @@ def ice4_fast_rs(
     with computation(PARALLEL), interval(...):
         # PARAMI%CSNOWRIMING == M90
         # TODO : refactor if statement out of stencil for performance
-        if SNOW_RIMING == 0:
+        if __INLINED(SNOW_RIMING == 0):
             if grim_tmp:
                 zw_tmp = rs_rsrimcg_tnd - rs_rcrimss_tnd
                 # Translation note : #ifdef REPRO48 l208 kept
@@ -291,36 +291,40 @@ def ice4_fast_rs(
         # Translation note : LDPACK is False l159 to l223 removed in interp_micro.func.h
         #                                    l226 to l266 kept
 
-        if (not ldsoft) and gacc_tmp:
-            rs_rraccs_tnd = 0
-            rs_rraccss_tnd = 0
-            rs_rsaccrg_tnd = 0
+        if __INLINED(not LDSOFT):
+            if gacc_tmp:
+                rs_rraccs_tnd = 0
+                rs_rraccss_tnd = 0
+                rs_rsaccrg_tnd = 0
 
-            index_floor_r, index_float_r = index_micro2d_acc_r(lbdar)
-            index_floor_s, index_float_s = index_micro2d_acc_s(lbdas)
-            zw1_tmp = index_float_s * (
-                index_float_r * ker_raccss.A[index_floor_s + 1, index_floor_r + 1]
-                + (1 - index_float_r) * ker_raccss.A[index_floor_s + 1, index_floor_r]
-            ) + (1 - index_float_s) * (
-                index_float_r * ker_raccss.A[index_floor_s, index_floor_r + 1]
-                + (1 - index_float_r) * ker_raccss.A[index_floor_s, index_floor_r]
-            )
+                index_floor_r, index_float_r = index_micro2d_acc_r(lbdar)
+                index_floor_s, index_float_s = index_micro2d_acc_s(lbdas)
+                zw1_tmp = index_float_s * (
+                    index_float_r * ker_raccss.A[index_floor_s + 1, index_floor_r + 1]
+                    + (1 - index_float_r)
+                    * ker_raccss.A[index_floor_s + 1, index_floor_r]
+                ) + (1 - index_float_s) * (
+                    index_float_r * ker_raccss.A[index_floor_s, index_floor_r + 1]
+                    + (1 - index_float_r) * ker_raccss.A[index_floor_s, index_floor_r]
+                )
 
-            zw2_tmp = index_float_s * (
-                index_float_r * ker_raccs.A[index_floor_s + 1, index_floor_r + 1]
-                + (1 - index_float_r) * ker_raccs.A[index_floor_s + 1, index_floor_r]
-            ) + (1 - index_float_s) * (
-                index_float_r * ker_raccs.A[index_floor_s, index_floor_r + 1]
-                + (1 - index_float_r) * ker_raccs.A[index_floor_s, index_floor_r]
-            )
+                zw2_tmp = index_float_s * (
+                    index_float_r * ker_raccs.A[index_floor_s + 1, index_floor_r + 1]
+                    + (1 - index_float_r)
+                    * ker_raccs.A[index_floor_s + 1, index_floor_r]
+                ) + (1 - index_float_s) * (
+                    index_float_r * ker_raccs.A[index_floor_s, index_floor_r + 1]
+                    + (1 - index_float_r) * ker_raccs.A[index_floor_s, index_floor_r]
+                )
 
-            zw3_tmp = index_float_s * (
-                index_float_r * ker_saccrg.A[index_floor_s + 1, index_floor_r + 1]
-                + (1 - index_float_r) * ker_saccrg.A[index_floor_s + 1, index_floor_r]
-            ) + (1 - index_float_s) * (
-                index_float_r * ker_saccrg.A[index_floor_s, index_floor_r + 1]
-                + (1 - index_float_r) * ker_saccrg.A[index_floor_s, index_floor_r]
-            )
+                zw3_tmp = index_float_s * (
+                    index_float_r * ker_saccrg.A[index_floor_s + 1, index_floor_r + 1]
+                    + (1 - index_float_r)
+                    * ker_saccrg.A[index_floor_s + 1, index_floor_r]
+                ) + (1 - index_float_s) * (
+                    index_float_r * ker_saccrg.A[index_floor_s, index_floor_r + 1]
+                    + (1 - index_float_r) * ker_saccrg.A[index_floor_s, index_floor_r]
+                )
 
     #         # CALL INTERP_MICRO_2D
 
@@ -382,7 +386,7 @@ def ice4_fast_rs(
     # 5.3 Conversion-Melting of the aggregates
     with computation(PARALLEL), interval(...):
         if rs_t < S_RTMIN and t > TT and ldcompute:
-            if not ldsoft:
+            if __INLINED(not LDSOFT):
                 rs_mltg_tnd = rv_t * pres / (EPSILO + rv_t)
                 if LEVLIMIT:
                     rs_mltg_tnd = min(
