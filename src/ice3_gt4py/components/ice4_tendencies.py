@@ -34,6 +34,7 @@ class Ice4Tendencies(ImplicitTendencyComponent):
         computational_grid: ComputationalGrid,
         gt4py_config: GT4PyConfig,
         phyex: Phyex,
+        ldsoft: bool,
         *,
         enable_checks: bool = True,
     ) -> None:
@@ -81,17 +82,23 @@ class Ice4Tendencies(ImplicitTendencyComponent):
             "ice4_slope_parameters", externals
         )
 
-        self.ice4_slow = self.compile_stencil("ice4_slow", externals)
-        self.ice4_warm = self.compile_stencil("ice4_warm", externals)
+        externals.update({"LDSOFT": False})
+        self.ice4_slow_heavy = self.compile_stencil("ice4_slow", externals)
+        self.ice4_warm_heavy = self.compile_stencil("ice4_warm", externals)
+        self.ice4_fast_rs_heavy = self.compile_stencil("ice4_fast_rs", externals)
+        self.ice4_fast_rg_heavy = self.compile_stencil("ice4_fast_rg", externals)
+        self.ice4_fast_ri_heavy = self.compile_stencil("ice4_fast_ri", externals)
 
-        self.ice4_fast_rs = self.compile_stencil("ice4_fast_rs", externals)
+        externals.update({"LDSOFT": True})
+        self.ice4_slow_light = self.compile_stencil("ice4_slow", externals)
+        self.ice4_warm_light = self.compile_stencil("ice4_warm", externals)
+        self.ice4_fast_rs_light = self.compile_stencil("ice4_fast_rs", externals)
+        self.ice4_fast_rg_light = self.compile_stencil("ice4_fast_rg", externals)
+        self.ice4_fast_ri_light = self.compile_stencil("ice4_fast_ri", externals)
 
         self.ice4_fast_rg_pre_processing = self.compile_stencil(
             "ice4_fast_rg_pre_processing", externals
         )
-        self.ice4_fast_rg = self.compile_stencil("ice4_fast_rg", externals)
-
-        self.ice4_fast_ri = self.compile_stencil("ice4_fast_ri", externals)
 
         self.ice4_tendencies_update = self.compile_stencil(
             "ice4_tendencies_update", externals
@@ -171,7 +178,7 @@ class Ice4Tendencies(ImplicitTendencyComponent):
         timestep: timedelta,
         out_tendencies: NDArrayLikeDict,
         out_diagnostics: NDArrayLikeDict,
-        overwrite_tendencies: Dict[str, bool],
+        # overwrite_tendencies: OptionalDict[str, bool],
     ) -> None:
         with managed_temporary_storage(
             self.computational_grid,
@@ -252,12 +259,13 @@ class Ice4Tendencies(ImplicitTendencyComponent):
             index_floor_g,
         ):
 
+            logging.info(f"{state['th_t']}, {state['rhodref']}")
+
             ############## ice4_nucleation ################
             state_nucleation = {
                 **{
                     key: state[key]
                     for key in [
-                        "ldcompute",
                         "th_t",
                         "rhodref",
                         "exn",
@@ -266,6 +274,7 @@ class Ice4Tendencies(ImplicitTendencyComponent):
                         "rv_t",
                         "ci_t",
                         "ssi",
+                        "ldcompute",
                     ]
                 },
                 **{"pabs_t": state["pres"]},
@@ -493,7 +502,12 @@ class Ice4Tendencies(ImplicitTendencyComponent):
                 "rv_depg_tnd": rv_depg_tnd,
             }
 
-            self.ice4_slow(ldsoft=ldsoft, **state_slow, **tmps_slow)
+            # Choice between processes computation (heavy) and light update
+            self.ice4_slow_light(
+                ldsoft=ldsoft, **state_slow, **tmps_slow
+            ) if ldsoft else self.ice4_slow_heavy(
+                ldsoft=ldsoft, **state_slow, **tmps_slow
+            )
 
             ######################## ice4_warm ######################################
             state_warm = {
@@ -530,7 +544,9 @@ class Ice4Tendencies(ImplicitTendencyComponent):
                 "rrevav": rrevav,
             }
 
-            self.ice4_warm(ldsoft=ldsoft, **state_warm, **tmps_warm)
+            self.ice4_warm_light(
+                **state_warm, **tmps_warm
+            ) if ldsoft else self.ice4_warm_heavy(**state_warm, **tmps_warm)
 
             ######################## ice4_fast_rs ###################################
             state_fast_rs = {
@@ -595,8 +611,16 @@ class Ice4Tendencies(ImplicitTendencyComponent):
             )
             ker_saccrg = from_array(self.ker_saccrg, backend=self.gt4py_config.backend)
 
-            self.ice4_fast_rs(
-                ldsoft=ldsoft,
+            self.ice4_fast_rs_light(
+                gaminc_rim1=gaminc_rim1,
+                gaminc_rim2=gaminc_rim2,
+                gaminc_rim4=gaminc_rim4,
+                ker_raccs=ker_raccs,
+                ker_raccss=ker_raccss,
+                ker_saccrg=ker_saccrg,
+                **state_fast_rs,
+                **temporaries_fast_rs,
+            ) if ldsoft else self.ice4_fast_rs_heavy(
                 gaminc_rim1=gaminc_rim1,
                 gaminc_rim2=gaminc_rim2,
                 gaminc_rim4=gaminc_rim4,
@@ -678,8 +702,12 @@ class Ice4Tendencies(ImplicitTendencyComponent):
             ker_sdryg = from_array(self.ker_sdryg, backend=self.gt4py_config.backend)
             ker_rdryg = from_array(self.ker_rdryg, backend=self.gt4py_config.backend)
 
-            self.ice4_fast_rg(
-                ldsoft=ldsoft,
+            self.ice4_fast_rg_light(
+                ker_sdryg=ker_sdryg,
+                ker_rdryg=ker_rdryg,
+                **state_fast_rg,
+                **temporaries_fast_rg,
+            ) if ldsoft else self.ice4_fast_rg_heavy(
                 ker_sdryg=ker_sdryg,
                 ker_rdryg=ker_rdryg,
                 **state_fast_rg,
@@ -709,7 +737,9 @@ class Ice4Tendencies(ImplicitTendencyComponent):
                 "rc_beri_tnd": rc_beri_tnd,
             }
 
-            self.ice4_fast_ri(ldsoft=ldsoft, **state_fast_ri, **tmps_fast_ri)
+            self.ice4_fast_ri_light(
+                **state_fast_ri, **tmps_fast_ri
+            ) if ldsoft else self.ice4_fast_ri_heavy(**state_fast_ri, **tmps_fast_ri)
 
             ######################## ice4_tendencies_update #########################
 
