@@ -39,10 +39,8 @@ class Ice4Stepping(ImplicitTendencyComponent):
         # Stencil collections
 
         self.ice4_stepping_heat = self.compile_stencil("ice4_stepping_heat", externals)
-        self.ice4_step_limiter = self.compile_stencil("step_limiter", externals)
-        self.ice4_mixing_ratio_step_limiter = self.compile_stencil(
-            "mixing_ratio_step_limiter", externals
-        )
+        self.ice4_limiter = self.compile_stencil("limiter", externals)
+
         self.ice4_state_update = self.compile_stencil("state_update", externals)
         self.external_tendencies_update = self.compile_stencil(
             "external_tendencies_update", externals
@@ -54,8 +52,18 @@ class Ice4Stepping(ImplicitTendencyComponent):
         )
 
         # Component for tendency update
-        self.ice4_tendencies = Ice4Tendencies(
-            self.computational_grid, self.gt4py_config, phyex
+        self.ice4_tendencies_heavy = Ice4Tendencies(
+            computational_grid=self.computational_grid,
+            gt4py_config=self.gt4py_config,
+            phyex=phyex,
+            ldsoft=False,
+        )
+
+        self.ice4_tendencies_light = Ice4Tendencies(
+            computational_grid=self.computational_grid,
+            gt4py_config=self.gt4py_config,
+            phyex=phyex,
+            ldsoft=True,
         )
 
     @cached_property
@@ -158,8 +166,12 @@ class Ice4Stepping(ImplicitTendencyComponent):
             # timing
             t_micro,
             delta_t_micro,
-            time_threshold_tmp,
         ):
+            # TODO : add first stencils
+            # TODO : l192 -> l206 if LDAUCV_ADJU
+            # TODO : l187 -> l191 if LDSIGMA_RC
+            # TODO : l180 -> l186 if LDEXT_TEND
+
             # Translation note : Ice4Stepping is implemented assuming PARAMI%XTSTEP_TS = 0
             #                   l225 to l229 omitted
             #                   l334 to l341 omitted
@@ -169,169 +181,138 @@ class Ice4Stepping(ImplicitTendencyComponent):
             dt = timestep.total_seconds()
 
             state_tmicro_init = {"ldmicro": state["ldmicro"], "t_micro": t_micro}
-
             self.tmicro_init(**state_tmicro_init)
 
+            ############# First iteration ##############
+
+            ############################################
             outerloop_counter = 0
-            max_outerloop_iterations = 10
             lsoft = False
 
-            # l223 in f90
-            while np.any(t_micro[...] < dt):
+            # Translation note : l230 to l 237 in Fortran
+            self.ldcompute_init(ldcompute, t_micro)
 
-                # Translation note XTSTEP_TS == 0 is assumed implying no loops over t_soft
-                innerloop_counter = 0
-                max_innerloop_iterations = 10
+            # Iterations limiter
+            while np.any(ldcompute[...]):
 
-                # Translation note : l230 to l 237 in Fortran
-                self.ldcompute_init(ldcompute, t_micro)
+                # loop breaker
 
-                # Iterations limiter
-                if outerloop_counter >= max_outerloop_iterations:
-                    break
+                ####### ice4_stepping_heat #############
+                state_stepping_heat = {
+                    key: state[key]
+                    for key in [
+                        "rv_t",
+                        "rc_t",
+                        "rr_t",
+                        "ri_t",
+                        "rs_t",
+                        "rg_t",
+                        "exn",
+                        "th_t",
+                        "ls_fact",
+                        "lv_fact",
+                        "t",
+                    ]
+                }
 
-                while np.any(ldcompute[...]):
+                self.ice4_stepping_heat(**state_stepping_heat)
 
-                    # Iterations limiter
-                    if innerloop_counter >= max_innerloop_iterations:
-                        break
-
-                    ####### ice4_stepping_heat #############
-                    state_stepping_heat = {
+                ####### tendencies #######
+                state_ice4_tendencies = {
+                    **{
                         key: state[key]
                         for key in [
+                            "rhodref",
+                            "exn",
+                            "ls_fact",
+                            "lv_fact",
+                            "rv_t",
+                            "cf",
+                            "sigma_rc",
+                            "ci_t",
+                            "ai",
+                            "cj",
+                            "ssi",
+                            "t",
+                            "th_t",
                             "rv_t",
                             "rc_t",
                             "rr_t",
                             "ri_t",
                             "rs_t",
                             "rg_t",
-                            "exn",
-                            "th_t",
-                            "ls_fact",
-                            "lv_fact",
-                            "t",
+                            "hlc_hcf",
+                            "hlc_lcf",
+                            "hlc_hrc",
+                            "hlc_lrc",
+                            "hli_hcf",
+                            "hli_lcf",
+                            "hli_hri",
+                            "hli_lri",
+                            "fr",
                         ]
-                    }
+                    },
+                    **{"pres": state["pabs_t"]},
+                    **{
+                        "ldcompute": ldcompute,
+                        "theta_tnd": theta_a_tnd,
+                        "rv_tnd": rv_a_tnd,
+                        "rc_tnd": rc_a_tnd,
+                        "rr_tnd": rr_a_tnd,
+                        "ri_tnd": ri_a_tnd,
+                        "rs_tnd": rs_a_tnd,
+                        "rg_tnd": rg_a_tnd,
+                        "theta_increment": theta_b,
+                        "rv_increment": rv_b,
+                        "rc_increment": rc_b,
+                        "rr_increment": rr_b,
+                        "ri_increment": ri_b,
+                        "rs_increment": rs_b,
+                        "rg_increment": rg_b,
+                    },
+                }
 
-                    self.ice4_stepping_heat(**state_stepping_heat)
+                self.ice4_tendencies_light.array_call(
+                    ldsoft=lsoft,
+                    state=state_ice4_tendencies,
+                    timestep=dt,
+                    out_diagnostics={},
+                    out_tendencies={},
+                    overwrite_tendencies={},
+                )
 
-                    ####### tendencies #######
-                    state_ice4_tendencies = {
-                        **{
-                            key: state[key]
-                            for key in [
-                                "rhodref",
-                                "exn",
-                                "ls_fact",
-                                "lv_fact",
-                                "rv_t",
-                                "cf",
-                                "sigma_rc",
-                                "ci_t",
-                                "ai",
-                                "cj",
-                                "ssi",
-                                "t",
-                                "th_t",
-                                "rv_t",
-                                "rc_t",
-                                "rr_t",
-                                "ri_t",
-                                "rs_t",
-                                "rg_t",
-                                "hlc_hcf",
-                                "hlc_lcf",
-                                "hlc_hrc",
-                                "hlc_lrc",
-                                "hli_hcf",
-                                "hli_lcf",
-                                "hli_hri",
-                                "hli_lri",
-                                "fr",
-                            ]
-                        },
-                        **{"pres": state["pabs_t"]},
-                        **{
-                            "ldcompute": ldcompute,
-                            "theta_tnd": theta_a_tnd,
-                            "rv_tnd": rv_a_tnd,
-                            "rc_tnd": rc_a_tnd,
-                            "rr_tnd": rr_a_tnd,
-                            "ri_tnd": ri_a_tnd,
-                            "rs_tnd": rs_a_tnd,
-                            "rg_tnd": rg_a_tnd,
-                            "theta_increment": theta_b,
-                            "rv_increment": rv_b,
-                            "rc_increment": rc_b,
-                            "rr_increment": rr_b,
-                            "ri_increment": ri_b,
-                            "rs_increment": rs_b,
-                            "rg_increment": rg_b,
-                        },
-                    }
+                # Translation note : l277 to l283 omitted, no external tendencies in AROME
 
-                    self.ice4_tendencies.array_call(
-                        ldsoft=lsoft,
-                        state=state_ice4_tendencies,
-                        timestep=dt,
-                        out_diagnostics={},
-                        out_tendencies={},
-                        overwrite_tendencies={},
-                    )
-
-                    # Translation note : l277 to l283 omitted, no external tendencies in AROME
-
-                    ######### ice4_step_limiter ############################
-                    state_step_limiter = {
+                ######### ice4_step_limiter ############################
+                state_limiter = {
+                    **{
                         key: state[key]
                         for key in [
                             "exn",
+                            "theta_t",
                             "rc_t",
                             "rr_t",
                             "ri_t",
                             "rs_t",
                             "rg_t",
-                            "th_t",
+                            "delta_t_soft",
+                            "t_soft",
                         ]
-                    }
-
-                    tmps_step_limiter = {
-                        "t_micro": t_micro,
-                        "delta_t_micro": delta_t_micro,
-                        "ldcompute": ldcompute,
+                    },
+                    **{
                         "theta_a_tnd": theta_a_tnd,
+                        "theta_b": theta_b,
+                        "theta_ext_tnd": theta_ext_tnd,
                         "rc_a_tnd": rc_a_tnd,
                         "rr_a_tnd": rr_a_tnd,
                         "ri_a_tnd": ri_a_tnd,
                         "rs_a_tnd": rs_a_tnd,
                         "rg_a_tnd": rg_a_tnd,
-                        "theta_b": theta_b,
-                        "rc_b": rc_b,
-                        "rr_b": rr_b,
-                        "ri_b": ri_b,
-                        "rs_b": rs_b,
-                        "rg_b": rg_b,
-                    }
-
-                    self.ice4_step_limiter(**state_step_limiter, **tmps_step_limiter)
-
-                    # l346 to l388
-                    ############ ice4_mixing_ratio_step_limiter ############
-                    state_mixing_ratio_step_limiter = {
-                        key: state[key]
-                        for key in ["rc_t", "rr_t", "ri_t", "rs_t", "rg_t"]
-                    }
-
-                    temporaries_mixing_ratio_step_limiter = {
-                        "ldcompute": ldcompute,
-                        "theta_a_tnd": theta_a_tnd,
-                        "rc_a_tnd": rc_a_tnd,
-                        "rr_a_tnd": rr_a_tnd,
-                        "ri_a_tnd": ri_a_tnd,
-                        "rs_a_tnd": rs_a_tnd,
-                        "rg_a_tnd": rg_a_tnd,
-                        "theta_b": theta_b,
+                        "rc_ext_tnd": rc_ext_tnd,
+                        "rr_ext_tnd": rr_ext_tnd,
+                        "ri_ext_tnd": ri_ext_tnd,
+                        "rs_ext_tnd": rs_ext_tnd,
+                        "rg_ext_tnd": rg_ext_tnd,
                         "rc_b": rc_b,
                         "rr_b": rr_b,
                         "ri_b": ri_b,
@@ -343,17 +324,18 @@ class Ice4Stepping(ImplicitTendencyComponent):
                         "rs_0r_t": rs_0r_t,
                         "rg_0r_t": rg_0r_t,
                         "delta_t_micro": delta_t_micro,
-                    }
+                        "t_micro": t_micro,
+                        "ldcompute": ldcompute,
+                    },
+                }
 
-                    self.ice4_mixing_ratio_step_limiter(
-                        **state_mixing_ratio_step_limiter,
-                        **temporaries_mixing_ratio_step_limiter,
-                    )
+                self.ice4_limiter(**state_limiter)
 
-                    # l394 to l404
-                    # 4.7 new values for next iteration
-                    ############### ice4_state_update ######################
-                    state_state_update = {
+                # l394 to l404
+                # 4.7 new values for next iteration
+                ############### ice4_state_update ######################
+                state_state_update = {
+                    **{
                         key: state[key]
                         for key in [
                             "th_t",
@@ -365,9 +347,8 @@ class Ice4Stepping(ImplicitTendencyComponent):
                             "ci_t",
                             "ldmicro",
                         ]
-                    }
-
-                    tmps_state_update = {
+                    },
+                    **{
                         "theta_a_tnd": theta_a_tnd,
                         "rc_a_tnd": rc_a_tnd,
                         "rr_a_tnd": rr_a_tnd,
@@ -382,41 +363,14 @@ class Ice4Stepping(ImplicitTendencyComponent):
                         "rg_b": rg_b,
                         "delta_t_micro": delta_t_micro,
                         "t_micro": t_micro,
-                    }
+                    },
+                }
+                self.ice4_state_update(**state_state_update)
 
-                    self.ice4_state_update(**state_state_update, **tmps_state_update)
-
-                    # TODO : next loop
-                    lsoft = True
-                    innerloop_counter += 1
+                # TODO : next loop
+                lsoft = True
                 outerloop_counter += 1
 
-            # l440 to l452
             ################ external_tendencies_update ############
-            # if ldext_tnd
-
-            state_external_tendencies_update = {
-                key: state[key]
-                for key in [
-                    "th_t",
-                    "rc_t",
-                    "rr_t",
-                    "ri_t",
-                    "rs_t",
-                    "rg_t",
-                    "ldmicro",
-                ]
-            }
-
-            tmps_external_tendencies_update = {
-                "theta_tnd_ext": theta_ext_tnd,
-                "rc_tnd_ext": rc_ext_tnd,
-                "rr_tnd_ext": rr_ext_tnd,
-                "ri_tnd_ext": ri_ext_tnd,
-                "rs_tnd_ext": rs_ext_tnd,
-                "rg_tnd_ext": rg_ext_tnd,
-            }
-
-            self.external_tendencies_update(
-                **state_external_tendencies_update, **tmps_external_tendencies_update
-            )
+            # Translation note : l440 to l452 removed
+            # No external tendencies in AROME
