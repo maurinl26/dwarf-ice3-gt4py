@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
 
+from gt4py.cartesian import gtscript
 from gt4py.cartesian.gtscript import (
-    Field,
     computation,
     __INLINED,
     PARALLEL,
@@ -18,33 +18,33 @@ from ifs_physics_common.utils.f2py import ported_method
 )
 @stencil_collection("rain_ice_init")
 def rain_ice_init(
-    ldmicro: Field["bool"],
-    exn: Field["float"],
-    ls_fact: Field["float"],
-    lv_fact: Field["float"],
-    th_t: Field["float"],
-    rv_t: Field["float"],
-    rc_t: Field["float"],
-    rr_t: Field["float"],
-    ri_t: Field["float"],
-    rs_t: Field["float"],
-    rg_t: Field["float"],
+    ldmicro: gtscript.Field["bool"],
+    exn: gtscript.Field["float"],
+    ls_fact: gtscript.Field["float"],
+    lv_fact: gtscript.Field["float"],
+    th_t: gtscript.Field["float"],
+    rv_t: gtscript.Field["float"],
+    rc_t: gtscript.Field["float"],
+    rr_t: gtscript.Field["float"],
+    ri_t: gtscript.Field["float"],
+    rs_t: gtscript.Field["float"],
+    rg_t: gtscript.Field["float"],
 ):
     """Computes ldmicro mask given minimum mixing ratios per specy.
-    Computes conversions from theta, exn to temperature
+    Computes conversions from theta, exn to temperature.
 
     Args:
-        ldmicro (Field[bool]): mask for microphysical computations
-        exn (Field[float]): exner pressure
-        ls_fact (Field[float]): sublimation latent heat over capacity
-        lv_fact (Field[float]): vaporisation latent heat over capacity
-        th_t (Field[float]): potential temperature at t
-        rv_t (Field[float]): vapour m.r. at t
-        rc_t (Field[float]): cloud droplet m.r. at t
-        rr_t (Field[float]): rain m.r. at t
-        ri_t (Field[float]): ice m.r. at t
-        rs_t (Field[float]): snow m.r.
-        rg_t (Field[float]): graupel m.r.
+        ldmicro (gtscript.Field[bool]): mask for microphysical computations
+        exn (gtscript.Field[float]): exner pressure
+        ls_fact (gtscript.Field[float]): sublimation latent heat over capacity
+        lv_fact (gtscript.Field[float]): vaporisation latent heat over capacity
+        th_t (gtscript.Field[float]): potential temperature at t
+        rv_t (gtscript.Field[float]): vapour m.r. at t
+        rc_t (gtscript.Field[float]): cloud droplet m.r. at t
+        rr_t (gtscript.Field[float]): rain m.r. at t
+        ri_t (gtscript.Field[float]): ice m.r. at t
+        rs_t (gtscript.Field[float]): snow m.r.
+        rg_t (gtscript.Field[float]): graupel m.r.
     """
 
     from __externals__ import (
@@ -82,22 +82,22 @@ def rain_ice_init(
 )
 @stencil_collection("initial_values_saving")
 def initial_values_saving(
-    wr_th: Field["float"],
-    wr_v: Field["float"],
-    wr_c: Field["float"],
-    wr_r: Field["float"],
-    wr_i: Field["float"],
-    wr_s: Field["float"],
-    wr_g: Field["float"],
-    th_t: Field["float"],
-    rv_t: Field["float"],
-    rc_t: Field["float"],
-    rr_t: Field["float"],
-    ri_t: Field["float"],
-    rs_t: Field["float"],
-    rg_t: Field["float"],
-    evap3d: Field["float"],
-    rainfr: Field["float"],
+    wr_th: gtscript.Field["float"],
+    wr_v: gtscript.Field["float"],
+    wr_c: gtscript.Field["float"],
+    wr_r: gtscript.Field["float"],
+    wr_i: gtscript.Field["float"],
+    wr_s: gtscript.Field["float"],
+    wr_g: gtscript.Field["float"],
+    th_t: gtscript.Field["float"],
+    rv_t: gtscript.Field["float"],
+    rc_t: gtscript.Field["float"],
+    rr_t: gtscript.Field["float"],
+    ri_t: gtscript.Field["float"],
+    rs_t: gtscript.Field["float"],
+    rg_t: gtscript.Field["float"],
+    evap3d: gtscript.Field["float"],
+    rainfr: gtscript.Field["float"],
 ):
 
     from __externals__ import LWARM

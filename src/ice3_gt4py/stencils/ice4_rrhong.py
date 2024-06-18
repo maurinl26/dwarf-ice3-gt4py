@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
 
-from gt4py.cartesian.gtscript import Field
+from gt4py.cartesian import gtscript
+from gt4py.cartesian.gtscript import interval, computation, PARALLEL
 from ifs_physics_common.framework.stencil import stencil_collection
 from ifs_physics_common.utils.f2py import ported_method
 
@@ -9,26 +10,26 @@ from ifs_physics_common.utils.f2py import ported_method
 @ported_method(from_file="PHYEX/src/common/micro/mode_ice4_rrhong.F90")
 @stencil_collection("ice4_rrhong")
 def ice4_rrhong(
-    ldcompute: Field["bool"],
-    t: Field["float"],
-    exn: Field["float"],
-    lv_fact: Field["float"],
-    ls_fact: Field["float"],
-    tht: Field["float"],  # theta at time t
-    rrhong_mr: Field["float"],
-    rr_t: Field["float"],  # rain water mixing ratio at t
+    ldcompute: gtscript.Field["bool"],
+    t: gtscript.Field["float"],
+    exn: gtscript.Field["float"],
+    lv_fact: gtscript.Field["float"],
+    ls_fact: gtscript.Field["float"],
+    tht: gtscript.Field["float"],  # theta at time t
+    rrhong_mr: gtscript.Field["float"],
+    rr_t: gtscript.Field["float"],  # rain water mixing ratio at t
 ):
     """Compute the spontaneous frezzing source RRHONG
 
     Args:
-        ldcompute (Field[bool]): switch to activate microphysical processes on column
-        t (Field[float]): temperature at t
-        exn (Field[float]): exner pressure
-        lv_fact (Field[float]): vaporisation latent heat
-        ls_fact (Field[float]): sublimation latent heat
-        tht (Field[float]): potential temperature
-        rr_t (Field[float]): rain mixing ratio at t
-        rrhong_mr (Field[float]): mixing ratio for spontaneous freezing source
+        ldcompute (gtscript.Field[bool]): switch to activate microphysical processes on column
+        t (gtscript.Field[float]): temperature at t
+        exn (gtscript.Field[float]): exner pressure
+        lv_fact (gtscript.Field[float]): vaporisation latent heat
+        ls_fact (gtscript.Field[float]): sublimation latent heat
+        tht (gtscript.Field[float]): potential temperature
+        rr_t (gtscript.Field[float]): rain mixing ratio at t
+        rrhong_mr (gtscript.Field[float]): mixing ratio for spontaneous freezing source
     """
 
     from __externals__ import LFEEDBACKT, R_RTMIN, TT
@@ -55,25 +56,25 @@ def ice4_rrhong(
 )
 @stencil_collection("ice4_rrhong_post_processing")
 def ice4_rrhong_post_processing(
-    t: Field["float"],
-    exn: Field["float"],
-    ls_fact: Field["float"],
-    lv_fact: Field["float"],
-    tht: Field["float"],
-    rr_t: Field["float"],
-    rg_t: Field["float"],
-    rrhong_mr: Field["float"],
+    t: gtscript.Field["float"],
+    exn: gtscript.Field["float"],
+    ls_fact: gtscript.Field["float"],
+    lv_fact: gtscript.Field["float"],
+    tht: gtscript.Field["float"],
+    rr_t: gtscript.Field["float"],
+    rg_t: gtscript.Field["float"],
+    rrhong_mr: gtscript.Field["float"],
 ):
     """adjust mixing ratio with nucleation increments
 
     Args:
-        t (Field[float]): temperature
-        exn (Field[float]): exner pressure
-        ls_fact (Field[float]): sublimation latent heat over heat capacity
-        tht (Field[float]): potential temperature
-        rr_t (Field[float]): rain m.r.
-        rg_t (Field[float]): graupel m.r.
-        rrhong (Field[float]): rain m.r. increment due to homogeneous nucleation
+        t (gtscript.Field[float]): temperature
+        exn (gtscript.Field[float]): exner pressure
+        ls_fact (gtscript.Field[float]): sublimation latent heat over heat capacity
+        tht (gtscript.Field[float]): potential temperature
+        rr_t (gtscript.Field[float]): rain m.r.
+        rg_t (gtscript.Field[float]): graupel m.r.
+        rrhong (gtscript.Field[float]): rain m.r. increment due to homogeneous nucleation
     """
 
     with computation(PARALLEL), interval(...):
