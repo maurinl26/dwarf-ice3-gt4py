@@ -30,7 +30,8 @@ def rain_ice_init(
     rs_t: Field["float"],
     rg_t: Field["float"],
 ):
-    """_summary_
+    """Computes ldmicro mask given minimum mixing ratios per specy.
+    Computes conversions from theta, exn to temperature
 
     Args:
         ldmicro (Field[bool]): mask for microphysical computations
