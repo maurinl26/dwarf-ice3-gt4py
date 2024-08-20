@@ -231,7 +231,7 @@ def ice_adjust(
         )  # inner min/max prevents sigfpe when 2*zq1 does not fit dtype_into an "int"
         inc = 2 * q1 - inq1
 
-        # sigrc = min(1, (1 - inc) * src_1d.A[inq1] + inc * src_1d.A[inq1 + 1])
+        sigrc = min(1, (1 - inc) * src_1d.A[inq1] + inc * src_1d.A[inq1 + 1])
 
         # Translation note : l496 to l503
         hlc_hcf = 0
