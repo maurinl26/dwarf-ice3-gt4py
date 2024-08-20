@@ -1,7 +1,15 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
 
-from gt4py.cartesian.gtscript import Field, exp, log, computation, interval, PARALLEL
+from gt4py.cartesian.gtscript import (
+    Field,
+    exp,
+    log,
+    computation,
+    interval,
+    PARALLEL,
+    __INLINED,
+)
 from ifs_physics_common.framework.stencil import stencil_collection
 from ifs_physics_common.utils.f2py import ported_method
 
@@ -98,16 +106,14 @@ def ice4_nucleation(
         w2 = w2 - ci_t
         w2 = min(w2, 5e4)
 
-    # l114
-    with computation(PARALLEL), interval(...):
+        # l114
         rvheni_mr = 0
         if t < TT and rv_t > V_RTMIN and ldcompute:
             rvheni_mr = max(w2, 0) * MNU0 / rhodref
             rvheni_mr = min(rv_t, rvheni_mr)
 
-    # l122
-    with computation(PARALLEL), interval(...):
-        if LFEEDBACKT:
+        # l122
+        if __INLINED(LFEEDBACKT):
             w1 = 0
             if t < TT and rv_t > V_RTMIN and ldcompute:
                 w1 = min(rvheni_mr, max(0, (TT / exn - th_t)) / ls_fact) / max(
@@ -117,8 +123,7 @@ def ice4_nucleation(
             w2 *= w1
             rvheni_mr *= w1
 
-    # l134
-    with computation(PARALLEL), interval(...):
+        # l134
         if t < TT and rv_t > V_RTMIN and ldcompute:
             ci_t = max(w2 + ci_t, ci_t)
 
