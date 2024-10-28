@@ -17,29 +17,8 @@ from pathlib import Path
 import logging
 
 
-class TestComponent(ComputationalGridComponent):
-    def __init__(
-        self,
-        computational_grid: ComputationalGrid,
-        gt4py_config: GT4PyConfig,
-        externals: dict,
-        fortran_subroutine: str,
-        fortran_script: str,
-        fortran_module: str,
-        gt4py_stencil: str,
-    ) -> None:
-        super().__init__(
-            computational_grid=computational_grid, gt4py_config=gt4py_config
-        )
-        self.externals = externals
-        self.compile_fortran_stencil(
-            fortran_module=fortran_module,
-            fortran_script=fortran_script,
-            fortran_subroutine=fortran_subroutine,
-        )
-
-        self.compile_gt4py_stencil(gt4py_stencil, self.externals)
-
+class FieldInterface:
+    
     @cached_property
     @abstractmethod
     def externals(self):
@@ -81,15 +60,29 @@ class TestComponent(ComputationalGridComponent):
     def fields_inout(self):
         pass
 
-    #### Compilations ####
-    def compile_gt4py_stencil(self, gt4py_stencil: str, externals: dict):
-        """Compile GT4Py script given
 
-        Args:
-            gt4py_stencil (str): _description_
-            externals (dict): _description_
-        """
-        self.gt4py_stencil = self.compile_stencil(gt4py_stencil, externals)
+
+class FortranComponent(ComputationalGridComponent, FieldInterface):
+    def __init__(
+        self,
+        computational_grid: ComputationalGrid,
+        gt4py_config: GT4PyConfig,
+        externals: dict,
+        fortran_subroutine: str,
+        fortran_script: str,
+        fortran_module: str,
+        gt4py_stencil: str,
+    ) -> None:
+        super(self, ComputationalGridComponent).__init__(
+            computational_grid=computational_grid, gt4py_config=gt4py_config
+        )
+        self.externals = externals
+        self.compile_fortran_stencil(
+            fortran_module=fortran_module,
+            fortran_script=fortran_script,
+            fortran_subroutine=fortran_subroutine,
+        )
+
 
     def compile_fortran_stencil(
         self, fortran_script, fortran_module, fortran_subroutine
@@ -147,9 +140,48 @@ class TestComponent(ComputationalGridComponent):
             return {
                     value["fortran_name"]: output_fields[i] for i, value in enumerate(output_fields_attributes.values())
                 }
-    
+            
+class GT4PyComponent(ComputationalGridComponent, FieldInterface):
+    def __init__(
+        self,
+        computational_grid: ComputationalGrid,
+        gt4py_config: GT4PyConfig,
+        externals: dict,
+        fortran_subroutine: str,
+        fortran_script: str,
+        fortran_module: str,
+        gt4py_stencil: str,
+    ) -> None:
+        super(self, ComputationalGridComponent).__init__(
+            computational_grid=computational_grid, gt4py_config=gt4py_config
+        )
+        self.externals = externals
+        self.compile_fortran_stencil(
+            fortran_module=fortran_module,
+            fortran_script=fortran_script,
+            fortran_subroutine=fortran_subroutine,
+        )
+
+        self.compile_gt4py_stencil(gt4py_stencil, self.externals)
+
+
+        
+
+
+
+    #### Compilations ####
+    def compile_gt4py_stencil(self, gt4py_stencil: str, externals: dict):
+        """Compile GT4Py script given
+
+        Args:
+            gt4py_stencil (str): _description_
+            externals (dict): _description_
+        """
+        self.gt4py_stencil = self.compile_stencil(gt4py_stencil, externals)
+
 
     def call_gt4py_stencil(self, fields: dict):
         """Call gt4py_stencil from a numpy array"""
         self.gt4py_stencil(**fields)
         return fields
+
