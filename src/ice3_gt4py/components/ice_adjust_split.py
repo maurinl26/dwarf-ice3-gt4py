@@ -38,17 +38,40 @@ class IceAdjustSplit(ImplicitTendencyComponent):
             computational_grid, enable_checks=enable_checks, gt4py_config=gt4py_config
         )
 
-        externals = phyex.to_externals()
-        self.thermo = self.compile_stencil("thermodynamic_fields", externals)
-        self.condensation = self.compile_stencil("condensation", externals)
-        self.compute_sources = self.compile_stencil("ice_adjust_sources", externals)
-        self.cloud_fraction = self.compile_stencil("cloud_fraction", externals)
+        self.externals = phyex.to_externals()
+        self.thermo = self.compile_stencil("thermodynamic_fields", self.externals)
+        self.condensation = self.compile_stencil("condensation", self.externals)
+        self.cloud_fraction = self.compile_stencil("cloud_fraction", self.externals)
 
-        logging.info(f"Keys")
-        logging.info(f"SUBG_COND : {phyex.nebn.LSUBG_COND}")
-        logging.info(f"SUBG_MF_PDF : {phyex.param_icen.SUBG_MF_PDF}")
-        logging.info(f"SIGMAS : {phyex.nebn.LSIGMAS}")
+        logging.info(f"IceAdjustSplit - Keys")
+        logging.info(f"LSUBG_COND : {phyex.nebn.LSUBG_COND}")
+        logging.info(f"LSIGMAS :  {phyex.nebn.LSIGMAS}")
+        logging.info(f"FRAC_ICE_ADJUST : {phyex.nebn.FRAC_ICE_ADJUST}")
+        logging.info(f"CONDENS : {phyex.nebn.CONDENS}")
+        logging.info(f"LAMBDA3 : {phyex.nebn.LAMBDA3}")
+        logging.info(f"OCOMPUTE_SRC absent")
         logging.info(f"LMFCONV : {phyex.LMFCONV}")
+        logging.info(f"LOCND2 absent")
+        logging.info(f"LHGT_QS : {phyex.nebn.LHGT_QS}")
+        logging.info(f"LSTATNW : {phyex.nebn.LSTATNW}")
+        logging.info(f"SUBG_MF_PDF : {phyex.param_icen.SUBG_MF_PDF}")
+
+        logging.info(f"Constants for condensation")
+        logging.info(f"RD : {phyex.cst.RD}")
+        logging.info(f"RV : {phyex.cst.RV}")
+
+        logging.info(f"Constants for thermodynamic fields")
+        logging.info(f"CPD : {phyex.cst.CPD}")
+        logging.info(f"CPV : {phyex.cst.CPV}")
+        logging.info(f"CL : {phyex.cst.CL}")
+        logging.info(f"CI : {phyex.cst.CI}")
+
+        logging.info(f"Constants for cloud fraction")
+        logging.info(f"CRIAUTC : {phyex.rain_ice_param.CRIAUTC}")
+        logging.info(f"CRIAUTI : {phyex.rain_ice_param.CRIAUTI}")
+        logging.info(f"ACRIAUTI : {phyex.rain_ice_param.ACRIAUTI}")
+        logging.info(f"BCRIAUTI : {phyex.rain_ice_param.BCRIAUTI}")
+        logging.info(f"TT : {phyex.cst.TT}")
 
     @cached_property
     def _input_properties(self) -> PropertyDict:
@@ -273,6 +296,9 @@ class IceAdjustSplit(ImplicitTendencyComponent):
         out_diagnostics: NDArrayLikeDict,
         overwrite_tendencies: Dict[str, bool],
     ) -> None:
+
+        logging.info(f"Timestep : {timestep.total_seconds()}")
+
         with managed_temporary_storage(
             self.computational_grid,
             *repeat(((I, J, K), "float"), 8),
@@ -296,6 +322,13 @@ class IceAdjustSplit(ImplicitTendencyComponent):
             temporaries_thermo = {"cph": cph, "lv": lv, "ls": ls, "t": t}
 
             logging.info("Launching thermo")
+            # logging.debug(f"Thermo __externals__ : {
+            #     self.externals["NRR"],
+            #     self.externals["CPV"],
+            #     self.externals["CPD"],
+            #     self.externals["CL"],
+            #     self.externals["CI"]}")
+
             self.thermo(
                 **state_thermo,
                 **temporaries_thermo,
@@ -322,50 +355,12 @@ class IceAdjustSplit(ImplicitTendencyComponent):
                 "rv_out": rv_out,
                 "ri_out": ri_out,
                 "rc_out": rc_out,
-                "t_out": t_out,
             }
 
             logging.info("Launching condensation")
             self.condensation(
                 **state_condensation,
                 **temporaries_condensation,
-                origin=(0, 0, 0),
-                domain=self.computational_grid.grids[I, J, K].shape,
-                validate_args=self.gt4py_config.validate_args,
-                exec_info=self.gt4py_config.exec_info,
-            )
-
-            logging.info("Compute tendencies (sources)")
-
-            state_sources = {
-                **{
-                    key: state[key]
-                    for key in [
-                        "rvs",
-                        "ris",
-                        "ths",
-                        "rc_in",
-                        "rv_in",
-                        "ri_in",
-                        "exnref",
-                    ]
-                },
-                **{"rv_in": state["rv"], "rc_in": state["rc"], "ri_in": state["ri"]},
-            }
-
-            temporaries_sources = {
-                "rv_out": rv_out,
-                "rc_out": rc_out,
-                "ri_out": ri_out,
-                "lv": lv,
-                "ls": ls,
-                "cph": cph,
-            }
-
-            self.compute_sources(
-                **state_sources,
-                **temporaries_sources,
-                dt=timestep.total_seconds(),
                 origin=(0, 0, 0),
                 domain=self.computational_grid.grids[I, J, K].shape,
                 validate_args=self.gt4py_config.validate_args,
@@ -398,6 +393,7 @@ class IceAdjustSplit(ImplicitTendencyComponent):
                 ]
             }
 
+            # TODO: check the scope of t
             temporaries_cloud_fraction = {
                 "lv": lv,
                 "ls": ls,

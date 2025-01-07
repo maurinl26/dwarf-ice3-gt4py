@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from pathlib import Path
 import subprocess
+
+import numpy as np
 from ice3_gt4py.components.ice_adjust_split import IceAdjustSplit
 import typer
 import logging
@@ -50,8 +52,7 @@ def run_ice_adjust(
 
     ################## Phyex #################
     logging.info("Initializing Phyex ...")
-    cprogram = "AROME"
-    phyex = Phyex(cprogram)
+    phyex = Phyex("AROME")
 
     ######## Backend and gt4py config #######
     logging.info(f"With backend {backend}")
@@ -92,7 +93,8 @@ def run_ice_adjust(
 
     ####################### Tracking ########################
     write_performance_tracking(gt4py_config, metrics, tracking_file)
-    
+
+
 @app.command()
 def run_ice_adjust_split(
     backend: str,
@@ -100,24 +102,23 @@ def run_ice_adjust_split(
     output_path: str,
     tracking_file: str,
     rebuild: bool = True,
-    validate_args: bool = False
+    validate_args: bool = False,
 ):
     """Run ice_adjust splitted version to avoid
     interpolation problems for sigrc
     """
-    
+
     ##### Grid #####
     logging.info("Initializing grid ...")
-    nx = 10000
+    nx = 9472
     ny = 1
     nz = 15
     grid = ComputationalGrid(nx, ny, nz)
-    dt = datetime.timedelta(seconds=1)
+    dt = datetime.timedelta(seconds=50)
 
     ################## Phyex #################
     logging.info("Initializing Phyex ...")
-    cprogram = "AROME"
-    phyex = Phyex(cprogram)
+    phyex = Phyex("AROME")
 
     ######## Backend and gt4py config #######
     logging.info(f"With backend {backend}")
@@ -127,10 +128,10 @@ def run_ice_adjust_split(
 
     ######## Instanciation + compilation #####
     logging.info(f"Compilation for IceAdjust stencils")
-    start = time.time()
+    start_compilation = time.time()
     ice_adjust = IceAdjustSplit(grid, gt4py_config, phyex)
-    stop = time.time()
-    elapsed_time = stop - start
+    stop_compilation = time.time()
+    elapsed_time = stop_compilation - start_compilation
     logging.info(f"Compilation duration for IceAdjust : {elapsed_time} s")
 
     ####### Create state for AroAdjust #######
@@ -138,7 +139,26 @@ def run_ice_adjust_split(
 
     logging.info("Getting state for IceAdjust")
     state = get_state_ice_adjust(grid, gt4py_config=gt4py_config, netcdf_reader=reader)
-    logging.info(f"Keys : {list(state.keys())}")
+
+    ####### Check inputs #####################
+    logging.info("Fields IN")
+    field = state["rhodref"].isel(z=slice(0, 15))
+    logging.info(f"Field rhodref, shape {field.shape}")
+    logging.info(f"Field rhodref, mean {field.mean().values}, std {field.std().values}")
+
+    logging.info("Fields INOUT (before call)")
+    logging.info(
+        f"Field rvs, mean {state['rvs'].isel(z=slice(0,15)).mean().values}, std {state['rvs'].isel(z=slice(0,15)).std().values}"
+    )
+    logging.info(
+        f"Field rcs, mean {state['rcs'].isel(z=slice(0,15)).mean().values}, std {state['rcs'].isel(z=slice(0,15)).std().values}"
+    )
+    logging.info(
+        f"Field ris, mean {state['ris'].isel(z=slice(0,15)).mean().values}, std {state['ris'].isel(z=slice(0,15)).std().values}"
+    )
+    logging.info(
+        f"Field ths, mean {state['ths'].isel(z=slice(0,15)).mean().values}, std {state['ths'].isel(z=slice(0,15)).std().values}"
+    )
 
     ###### Launching IceAdjust ###############
     logging.info("Launching IceAdjust")
@@ -150,14 +170,41 @@ def run_ice_adjust_split(
     elapsed_time = stop - start
     logging.info(f"Execution duration for IceAdjust : {elapsed_time} s")
 
+    logging.info("Fields INOUT (after call)")
+    logging.info(
+        f"Field rvs, mean {state['rvs'].isel(z=slice(0,15)).mean().values}, std {state['rvs'].isel(z=slice(0,15)).std().values}"
+    )
+    logging.info(
+        f"Field rcs, mean {state['rcs'].isel(z=slice(0,15)).mean().values}, std {state['rcs'].isel(z=slice(0,15)).std().values}"
+    )
+    logging.info(
+        f"Field ris, mean {state['ris'].isel(z=slice(0,15)).mean().values}, std {state['ris'].isel(z=slice(0,15)).std().values}"
+    )
+    logging.info(
+        f"Field ths, mean {state['ths'].isel(z=slice(0,15)).mean().values}, std {state['ths'].isel(z=slice(0,15)).std().values}"
+    )
+
+    logging.info(
+        f"Field hlc_hrc, mean {state['hlc_hrc'].isel(z=slice(0,15)).mean().values}, std {state['hlc_hrc'].isel(z=slice(0,15)).std().values}"
+    )
+    logging.info(
+        f"Field hlc_hcf, mean {state['hlc_hcf'].isel(z=slice(0,15)).mean().values}, std {state['hlc_hcf'].isel(z=slice(0,15)).std().values}"
+    )
+    logging.info(
+        f"Field hli_hcf, mean {state['hli_hcf'].isel(z=slice(0,15)).mean().values}, std {state['hli_hcf'].isel(z=slice(0,15)).std().values}"
+    )
+    logging.info(
+        f"Field hli_hri, mean {state['hli_hri'].isel(z=slice(0,15)).mean().values}, std {state['hli_hri'].isel(z=slice(0,15)).std().values}"
+    )
+
     #################### Write dataset ######################
     write_dataset(state, (nx, ny, nz), output_path)
 
     ############### Compute differences per field ###########
-    metrics = compare_fields(dataset, output_path, "ice_adjust")
+    # metrics = compare_fields(dataset, output_path, "ice_adjust")
 
-    ####################### Tracking ########################
-    write_performance_tracking(gt4py_config, metrics, tracking_file)
+    # ####################### Tracking ########################
+    # write_performance_tracking(gt4py_config, metrics, tracking_file)
 
 
 @app.command()

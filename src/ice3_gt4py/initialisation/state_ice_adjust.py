@@ -55,6 +55,7 @@ KEYS = {
     "rss": "PRS",
     "rvs": "PRS",
     "rgs": "PRS",
+    "ths": "PTHS",
 }
 
 KRR_MAPPING = {"h": 0, "v": 1, "c": 2, "r": 3, "i": 4, "s": 5, "g": 6}
@@ -181,7 +182,22 @@ def get_state_ice_adjust(
     """
     state = allocate_state_ice_adjust(computational_grid, gt4py_config=gt4py_config)
     initialize_state(state, netcdf_reader)
+
+    logging.info("Slicing for reproductibility tests with ice_adjust")
+    state = slicing(state)
+
     return state
+
+
+def slicing(state: DataArrayDict) -> DataArrayDict:
+    logging.info("Slicing equivalent to PHYEX")
+    new_state = {}
+    for key in state.keys():
+        new_state[key] = (
+            state[key].isel(x=slice(0, 9472)) if key != "time" else state[key]
+        )
+
+    return new_state
 
 
 def initialize_state(
