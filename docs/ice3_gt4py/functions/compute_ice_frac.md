@@ -1,1 +1,1 @@
-::: ice3_gt4py.functions.commpute_ice_frac
+::: ice3_gt4py.functions.compute_ice_frac

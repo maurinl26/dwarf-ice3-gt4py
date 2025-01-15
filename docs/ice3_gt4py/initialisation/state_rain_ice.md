@@ -1,1 +1,1 @@
-::: ice3_gt4py.initialisation.rain_ice
+::: ice3_gt4py.initialisation.state_rain_ice

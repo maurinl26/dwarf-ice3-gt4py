@@ -3,6 +3,11 @@ site_name: dwarf-ice3-gt4py
 nav:
   - Home: index.md
   - Translation Notes: translation_options.md
+  - drivers:
+    - cli: drivers/cli.md
+    - compare: drivers/compare.md
+    - config: drivers/config.md
+    - core: drivers/core.md
   - ice3_gt4py:
     - stencils:
       - aro_filter: ice3_gt4py/stencils/aro_filter.md
@@ -40,7 +45,6 @@ nav:
       - ice4_sedimentation_stat: ice3_gt4py/functions/ice4_sedimentation_stat
       - icecloud: ice3_gt4py/functions/icecloud
       - sign: ice3_gt4py/functions/sign
-      - src_1d: ice3_gt4py/functions/src_1d
       - subgrid_mf: ice3_gt4py/functions/subgrid_mf
       - temperature: ice3_gt4py/functions/temperature
       - tiwmx: ice3_gt4py/functions/tiwmx
@@ -60,15 +64,14 @@ nav:
       - xker_sdryg: ice3_gt4py/phyex_common/xker_sdryg
     - initialisation:
       - utils: ice3_gt4py/initialisation/utils
-      - reference: ice3_gt4py/initialisation/reference
       - state: ice3_gt4py/initialisation/state
-    - drivers:
-      - config: ice3_gt4py/drivers/config
-      - cli: ice3_gt4py/drivers/cli.md
-      - core: ice3_gt4py/drivers/core.md
+      - state_ice_adjust: ice3_gt4py/initialisation/state_ice_adjust
+      - state_rain_ice: ice3_gt4py/initialisation/state_rain_ice
+
+
 
 theme:
-  name: mkdocs
+  name: readthedocs
 plugins:
   - mkdocstrings
 watch:

@@ -1,0 +1,93 @@
+[build-system]
+build-backend = 'setuptools.build_meta'
+requires = ['setuptools>=61.0', 'wheel>=0.40.0']
+
+[project]
+name = "dwarf-p-ice3"
+version = "0.0.1"
+authors = [
+    {email = 'loic.maurin@meteo.fr'}, {name = 'Loïc Maurin - Meteo France'}
+    ]
+
+classifiers = [
+  'Development Status :: 3 - Alpha',
+  'Intended Audience :: Science/Research',
+  'License :: OSI Approved :: BSD License',
+  'Operating System :: POSIX',
+  'Programming Language :: Python',
+  'Programming Language :: Python :: 3',
+  'Programming Language :: Python :: 3 :: Only',
+  'Programming Language :: Python :: 3.10',
+  'Programming Language :: Python :: 3.11',
+  'Programming Language :: Python :: Implementation :: CPython',
+  'Topic :: Scientific/Engineering :: Atmospheric Science',
+  'Topic :: Scientific/Engineering :: Mathematics',
+  'Topic :: Scientific/Engineering :: Physics'
+]
+
+description = "ICE3-GT4Py"
+readme = "README.md"
+license = {text = "Apache-2.0"}
+keywords = ["gt4py", "microphysics"]
+
+
+[project.urls]
+Documentation = "https://maurinl26.github.io/dwarf-p-ice3/"
+Repository = "https://github.com/maurinl26/dwarf-p-ice3"
+
+[dependency-groups]
+build = [
+    "bump-my-version>=0.16.0",
+    "pip>=22.1.1",
+    "setuptools>=70.1.1",
+    "wheel>=0.45.0",
+    "wget>=3.2",
+]
+
+docs = [
+    "mkdocs"
+]
+
+lint = ["pre-commit>=4.0.1", "ruff>=0.8.0", "tach>=0.16.0"]
+
+test = [
+    "pytest>=8.0.1",
+    "pytest-benchmark>=5.0.0",
+    "pytest-cache>=1.0",
+    "pytest-cov>=5.0.0",
+    "pytest-factoryboy>=2.6.1",
+    "pytest-mpi>=0.6",
+    "pytest-xdist[psutil]>=3.5.0",
+]
+
+typing = [
+    "mypy[faster-cache]>=1.13.0",
+    "typing-extensions>=4.11.0",
+    "types-cffi>=1.16.0",
+]
+
+dev = [
+    { include-group = "build" },
+    { include-group = "docs" },
+    { include-group = "lint" },
+    { include-group = "test" },
+    { include-group = "typing" },
+]
+
+# -- uv --
+[tool.uv.sources]
+gt4py = { git = "https://github.com/GridTools/gt4py", tag = "icon4py_20241113" }
+ice3-gt4py = { workspace = true }
+testprogs-data = {  workspace = true }
+drivers = {workspace = true}
+
+[tool.uv.workspace]
+members = [
+    "src/ice3_gt4py",
+    "src/drivers",
+    "src/testprogs_data"
+]
+
+# -- setuptools --
+[tool.setuptools]
+packages = []
